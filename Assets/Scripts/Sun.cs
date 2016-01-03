@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SunScript : MonoBehaviour
+public class Sun : MonoBehaviour
 {
 	private LensFlare lensFlares;
 	public float angularSpeed = 180.0f;

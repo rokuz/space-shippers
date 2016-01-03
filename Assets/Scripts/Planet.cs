@@ -2,9 +2,9 @@
 using System.Collections;
 
 [ExecuteInEditMode]
-public class PlanetScript : MonoBehaviour {
-
-	private OrbitScript orbit;
+public class Planet : MonoBehaviour
+{
+	private Orbit orbit;
 	private float currentPosition;
 	private Vector3 axis = Vector3.up;
 
@@ -20,19 +20,19 @@ public class PlanetScript : MonoBehaviour {
 	[Range(0.0f, 1.0f)]
 	public float axisDeviation = 0.0f;
 
+    public SceneController sceneController;
 	public GameObject sun;
 	public Texture planetTexture;
 
 	private Material groundMaterial;
-	private Material skyMaterial;
 
 	private float innerRadius; // Radius of the ground sphere
 	private float outerRadius; // Radius of the sky sphere
 	private Vector3 invWaveLength4 = new Vector3(1.0f / Mathf.Pow(0.65f, 4.0f), 1.0f / Mathf.Pow(0.57f, 4.0f), 1.0f / Mathf.Pow(0.475f, 4.0f));
 
-	void Start () 
+	public void Start() 
 	{
-		orbit = this.GetComponentInParent<OrbitScript>();
+		orbit = this.GetComponentInParent<Orbit>();
 		if (orbit != null)
 		{
 			currentPosition = startPosition;
@@ -46,7 +46,6 @@ public class PlanetScript : MonoBehaviour {
 		axis.Normalize();
 
 		string GroundObjectName = "Ground";
-		string AtmosphereObjectName = "Atmosphere";
 		const float scale = 1.025f;
 		this.innerRadius = this.planetRadius;
 		this.outerRadius = scale * innerRadius;
@@ -54,13 +53,6 @@ public class PlanetScript : MonoBehaviour {
 		{
 			if (t.gameObject.name == GroundObjectName)
 				t.localScale = new Vector3(this.planetRadius, this.planetRadius, this.planetRadius);
-			else if (t.gameObject.name == AtmosphereObjectName)
-				t.localScale = new Vector3(scale * this.planetRadius, scale * this.planetRadius, scale * this.planetRadius);
-		}
-		foreach (SphereCollider c in this.GetComponentsInChildren<SphereCollider>(true)) 
-		{
-			if (c.gameObject.name == GroundObjectName)
-				c.radius = this.planetRadius;
 		}
 		foreach (MeshRenderer r in this.GetComponentsInChildren<MeshRenderer>(true)) 
 		{
@@ -70,21 +62,16 @@ public class PlanetScript : MonoBehaviour {
 				this.groundMaterial.mainTexture = planetTexture;
 				r.material = this.groundMaterial;
 			} 
-			else if (r.gameObject.name == AtmosphereObjectName) 
-			{
-				this.skyMaterial = new Material(Shader.Find("Space/PlanetSky"));
-				r.material = this.skyMaterial;
-			}
 		}
+
+        SphereCollider collider = this.GetComponent<SphereCollider>();
+        collider.radius = this.planetRadius;
 			
 		if (groundMaterial != null)
 			UpdateMaterial(groundMaterial);
-
-		if (skyMaterial != null)
-			UpdateMaterial(skyMaterial);
 	}
 
-	void Update () 
+	public void Update() 
 	{
 		this.transform.RotateAround(Vector3.zero, axis, Mathf.Deg2Rad * angularSpeed * Time.deltaTime);
 
@@ -100,9 +87,6 @@ public class PlanetScript : MonoBehaviour {
 
 		if (groundMaterial != null)
 			UpdateMaterial(groundMaterial);
-
-		if (skyMaterial != null)
-			UpdateMaterial(skyMaterial);
 	}
 
 	private void UpdateMaterial(Material mat)

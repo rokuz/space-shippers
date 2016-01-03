@@ -44,14 +44,14 @@ Shader "Space/PlanetGround"
 			float scale(float fCos)
 			{
 				float x = 1.0 - fCos;
-				return fScaleDepth * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));
+				return fScaleDepth * exp(-0.00287 + x * (0.459 + x * (3.83 + x * (-6.80 + x * 5.25))));
 			}
 
 			v2f vert(appdata_base v)
 			{
 			    float3 v3CameraPos = _WorldSpaceCameraPos - v3Translate;	// The camera's current position
 				float fCameraHeight = length(v3CameraPos);					// The camera's current height
-				float fCameraHeight2 = fCameraHeight*fCameraHeight;			// fCameraHeight^2
+				float fCameraHeight2 = fCameraHeight * fCameraHeight;		// fCameraHeight^2
 				
 				// Get the ray from the camera to the vertex and its length (which is the far point of the ray passing through the atmosphere)
 				float3 v3Pos = mul(_Object2World, v.vertex).xyz - v3Translate;
@@ -87,7 +87,7 @@ Shader "Space/PlanetGround"
 				// Now loop through the sample rays
 				float3 v3FrontColor = float3(0.0, 0.0, 0.0);
 				float3 v3Attenuate;
-				for(int i=0; i<int(fSamples); i++)
+				for(int i = 0; i < int(fSamples); i++)
 				{
 					float fHeight = length(v3SamplePoint);
 					float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fHeight));
