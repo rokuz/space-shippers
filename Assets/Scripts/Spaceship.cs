@@ -3,9 +3,15 @@ using System.Collections;
 
 public class Spaceship : MonoBehaviour
 {
+    public GameObject sun;
+    public GameObject explosion;
+
     public Planet fromPlanet;
     public Planet toPlanet;
     public float speed = 5.0f;
+    public uint crystalCarrying = 10;
+
+    private CrystalPack cargo;
 
 	public void Start()
     {
@@ -28,11 +34,29 @@ public class Spaceship : MonoBehaviour
         this.transform.Translate(0, 0, speed * Time.deltaTime);
 	}
 
+    public void Cargo(CrystalPack pack)
+    {
+        cargo = pack;
+    }
+        
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetInstanceID() == toPlanet.gameObject.GetInstanceID())
+        int id = other.gameObject.GetInstanceID();
+        if (id == toPlanet.gameObject.GetInstanceID())
         {
-            Destroy(this.gameObject);
+            CrystalFactory factory = toPlanet.gameObject.GetComponent<CrystalFactory>();
+            factory.ApplyCargo(cargo);
+            this.gameObject.SetActive(false);
+        }
+        else if (id == sun.GetInstanceID())
+        {
+            Vector3 pos = this.transform.position;
+
+            GameObject obj = Instantiate(explosion) as GameObject;
+            obj.transform.position = pos;
+            obj.GetComponent<ParticleSystem>().Play();
+
+            this.gameObject.SetActive(false);
         }
     }
 }

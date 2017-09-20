@@ -10,7 +10,7 @@ public class Orbit : MonoBehaviour
 
 	public float radius = 1.0f;
 
-	void Start ()
+	void Start()
     {
 		lineRenderer = GetComponent<LineRenderer>();
 
@@ -24,9 +24,5 @@ public class Orbit : MonoBehaviour
 
 		lineRenderer.SetVertexCount(pointsCount + 1);
 		lineRenderer.SetPositions(points);
-	}
-	
-	void Update ()
-    {
 	}
 }
