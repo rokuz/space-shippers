@@ -9,7 +9,7 @@ public class Spaceship : MonoBehaviour
     public Planet fromPlanet;
     public Planet toPlanet;
     public float speed = 5.0f;
-    public uint crystalCarrying = 10;
+    public uint crystalCarrying = 1;
 
     private CrystalPack cargo;
 

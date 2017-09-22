@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CrystalFactory : MonoBehaviour
 {
@@ -14,6 +15,20 @@ public class CrystalFactory : MonoBehaviour
     public delegate void OnAmountChangedEvent(Crystal crystal, uint amount);
     public OnAmountChangedEvent OnAmountChanged;
 
+    public delegate void OnProgressEvent(Crystal crystal, float progress);
+    public OnProgressEvent OnProgress;
+
+    public delegate void OnWaitingEvent(Crystal crystal, bool isWaiting);
+    public OnWaitingEvent OnWaiting;
+
+    private class CompoundCrystalTask
+    {
+        public Crystal crystalType = Crystal.Yellow;
+        public uint amount = 0;
+    }
+    private List<CompoundCrystalTask> tasks = new List<CompoundCrystalTask>();
+    private CompoundCrystalTask currentTask = null;
+
     public CrystalStock Stock
     {
         set { stock = value; }
@@ -23,6 +38,20 @@ public class CrystalFactory : MonoBehaviour
     {
         if (initialAmountChanged)
         {
+            if (OnProgress != null)
+            {
+                OnProgress(crystalType, 0.0f);
+                OnProgress(Crystal.Yellow, 0.0f);
+                OnProgress(Crystal.Cian, 0.0f);
+                OnProgress(Crystal.Purple, 0.0f);
+            }
+            if (OnWaiting != null)
+            {
+                OnWaiting(crystalType, false);
+                OnWaiting(Crystal.Yellow, false);
+                OnWaiting(Crystal.Cian, false);
+                OnWaiting(Crystal.Purple, false);
+            }
             if (OnAmountChanged != null)
                 OnAmountChanged(crystalType, amount);
             initialAmountChanged = false;
@@ -33,6 +62,56 @@ public class CrystalFactory : MonoBehaviour
     {
         producingAmount += productionSpeed * dt;
 
+        if (OnWaiting != null)
+        {
+            foreach(CompoundCrystalTask task in tasks)
+                OnWaiting(task.crystalType, true);  
+        }
+
+        // Task executing.
+        if (currentTask != null)
+        {
+            if (OnWaiting != null)
+            {
+                OnWaiting(crystalType, true);
+                OnWaiting(currentTask.crystalType, false);
+            }
+
+            uint compoundAmount = 0;
+            while (producingAmount >= 1.0f)
+            {
+                producingAmount -= 1.0f;
+                compoundAmount++;
+            }
+            if (OnProgress != null)
+                OnProgress(currentTask.crystalType, producingAmount);
+
+            if (compoundAmount > 0)
+            {
+                uint newAmount = System.Math.Min(currentTask.amount, compoundAmount);
+                amount -= newAmount;
+                currentTask.amount -= newAmount;
+                stock.AddToStock(currentTask.crystalType, newAmount);
+                if (OnAmountChanged != null)
+                    OnAmountChanged(crystalType, amount);
+            }
+
+            if (currentTask.amount == 0)
+            {
+                currentTask = null;
+                producingAmount = 0.0f;
+                if (tasks.Count > 0 && amount >= tasks[0].amount)
+                {
+                    currentTask = tasks[0];
+                    tasks.RemoveAt(0);
+                }
+            }
+            return;
+        }
+
+        if (OnWaiting != null)
+            OnWaiting(crystalType, false);
+
         bool produced = false;
         while (producingAmount >= 1.0f)
         {
@@ -41,12 +120,28 @@ public class CrystalFactory : MonoBehaviour
             produced = true;
         }
 
+        if (OnProgress != null)
+            OnProgress(crystalType, producingAmount);
+
         if (produced && OnAmountChanged != null)
             OnAmountChanged(crystalType, amount);
+
+        if (produced && tasks.Count > 0)
+        {
+            if (amount >= tasks[0].amount)
+            {
+                currentTask = tasks[0];
+                tasks.RemoveAt(0);
+                producingAmount = 0.0f;
+            }
+        }
     }
 
     public CrystalPack TakeCrystals(uint crystalAmount)
     {
+        if (currentTask != null)
+            return new CrystalPack();
+
         CrystalPack pack = new CrystalPack();
         pack.type = crystalType;
         pack.amount = System.Math.Min(crystalAmount, amount);
@@ -65,18 +160,14 @@ public class CrystalFactory : MonoBehaviour
     {
         if (pack.type != crystalType)
         {
-            Crystal type = GetCompoundCrystalType(pack.type, crystalType);
-            uint newAmount = System.Math.Min(pack.amount, amount);
-            amount -= newAmount;
-            stock.AddToStock(type, newAmount);
-            if (OnAmountChanged != null)
-                OnAmountChanged(crystalType, amount);
+            CompoundCrystalTask task = new CompoundCrystalTask();
+            task.crystalType = GetCompoundCrystalType(pack.type, crystalType);
+            task.amount = pack.amount;
+            tasks.Add(task);
         }
         else
         {
-            amount += pack.amount;
-            if (OnAmountChanged != null)
-                OnAmountChanged(crystalType, amount);
+            throw new UnityException("Incorrect game logic");
         }
     }
 

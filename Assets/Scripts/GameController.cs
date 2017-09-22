@@ -20,6 +20,20 @@ public class GameController : MonoBehaviour
     public Text purpleCrystals;
     public Text cianCrystals;
 
+    public RectTransform redCrystalsProgress;
+    public RectTransform greenCrystalsProgress;
+    public RectTransform blueCrystalsProgress;
+    public RectTransform yellowCrystalsProgress;
+    public RectTransform purpleCrystalsProgress;
+    public RectTransform cianCrystalsProgress;
+
+    public GameObject redCrystalsWaitingTank;
+    public GameObject greenCrystalsWaitingTank;
+    public GameObject blueCrystalsWaitingTank;
+    public GameObject yellowCrystalsWaitingTank;
+    public GameObject purpleCrystalsWaitingTank;
+    public GameObject cianCrystalsWaitingTank;
+
     private bool gameStarted = false;
     private float runTimestamp;
     private string[] textOnStart;
@@ -96,6 +110,20 @@ public class GameController : MonoBehaviour
         UpdateCrystalsText(crystal, amount);
     }
 
+    public void OnProgress(Crystal crystal, float progress)
+    {
+        progress = Mathf.Clamp(progress, 0.0f, 1.0f);
+        var progressRectTransform = FindCrystalsProgress(crystal);
+        progressRectTransform.sizeDelta = new Vector2(100.0f * progress, 10.0f);
+
+    }
+
+    public void OnWaiting(Crystal crystal, bool isWaiting)
+    {
+        var obj = FindWaitingTank(crystal);
+        obj.SetActive(isWaiting);
+    }
+
     private void OnStockAmountChanged(Crystal crystal, uint amount)
     {
         OnCrystalsAmountChanged(crystal, amount);
@@ -105,7 +133,7 @@ public class GameController : MonoBehaviour
     {
         string goalStr = missionController.GetGoalString(crystal);
         Text text = FindCrystalsText(crystal);
-        text.text = "" + amount + (goalStr.Length != 0 ? "\n" + goalStr : "");
+        text.text = "" + amount;
     }
 
     private void PrepareToPlay(float dt)
@@ -147,6 +175,46 @@ public class GameController : MonoBehaviour
                 return purpleCrystals;
             case Crystal.Cian:
                 return cianCrystals;
+        }
+        return null;
+    }
+
+    private RectTransform FindCrystalsProgress(Crystal crystal)
+    {
+        switch (crystal)
+        {
+            case Crystal.Red:
+                return redCrystalsProgress;
+            case Crystal.Green:
+                return greenCrystalsProgress;
+            case Crystal.Blue:
+                return blueCrystalsProgress;
+            case Crystal.Yellow:
+                return yellowCrystalsProgress;
+            case Crystal.Purple:
+                return purpleCrystalsProgress;
+            case Crystal.Cian:
+                return cianCrystalsProgress;
+        }
+        return null;
+    }
+
+    private GameObject FindWaitingTank(Crystal crystal)
+    {
+        switch (crystal)
+        {
+            case Crystal.Red:
+                return redCrystalsWaitingTank;
+            case Crystal.Green:
+                return greenCrystalsWaitingTank;
+            case Crystal.Blue:
+                return blueCrystalsWaitingTank;
+            case Crystal.Yellow:
+                return yellowCrystalsWaitingTank;
+            case Crystal.Purple:
+                return purpleCrystalsWaitingTank;
+            case Crystal.Cian:
+                return cianCrystalsWaitingTank;
         }
         return null;
     }

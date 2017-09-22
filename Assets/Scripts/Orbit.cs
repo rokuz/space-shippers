@@ -22,7 +22,7 @@ public class Orbit : MonoBehaviour
 		}
 		points[pointsCount] = points[0];
 
-		lineRenderer.SetVertexCount(pointsCount + 1);
+		lineRenderer.positionCount = pointsCount + 1;
 		lineRenderer.SetPositions(points);
 	}
 }

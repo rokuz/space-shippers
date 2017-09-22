@@ -25,6 +25,8 @@ public class SceneController : MonoBehaviour
             CrystalFactory factory = orbits[i].gameObject.GetComponentInChildren<CrystalFactory>(true);
             gameContoller.OnGameTick += factory.OnGameTick;
             factory.OnAmountChanged += gameContoller.OnCrystalsAmountChanged;
+            factory.OnProgress += gameContoller.OnProgress;
+            factory.OnWaiting += gameContoller.OnWaiting;
             factory.Stock = gameContoller.Stock;
         }
 	}
@@ -85,7 +87,7 @@ public class SceneController : MonoBehaviour
         }
         else
         {
-            Destroy(obj);
+            obj.SetActive(false);
             return;
         }
 
