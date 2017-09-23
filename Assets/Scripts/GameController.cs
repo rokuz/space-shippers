@@ -131,7 +131,7 @@ public class GameController : MonoBehaviour
 
     private void UpdateCrystalsText(Crystal crystal, uint amount)
     {
-        string goalStr = missionController.GetGoalString(crystal);
+        //string goalStr = missionController.GetGoalString(crystal);
         Text text = FindCrystalsText(crystal);
         text.text = "" + amount;
     }
