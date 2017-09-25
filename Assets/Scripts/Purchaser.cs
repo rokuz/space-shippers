@@ -12,6 +12,12 @@ public class Purchaser : MonoBehaviour, IStoreListener
 
   public delegate void OnDonatedEvent(bool success);
   public event OnDonatedEvent OnDonated;
+  private bool isDonated = false;
+
+  public bool IsDonated
+  {
+    get { return isDonated; }
+  }
 
   void Start()
   {
@@ -86,13 +92,13 @@ public class Purchaser : MonoBehaviour, IStoreListener
     Debug.Log("Purchaser not initialized");
   }
 
-
   public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) 
   {
     if (String.Equals(args.purchasedProduct.definition.id, kProductIDDonate, StringComparison.Ordinal))
     {
-      if (OnDonated!= null)
-        OnDonated(true);
+      isDonated = true;
+      if (OnDonated != null)
+        OnDonated(isDonated);
     }
     return PurchaseProcessingResult.Complete;
   }
@@ -101,7 +107,8 @@ public class Purchaser : MonoBehaviour, IStoreListener
   {
     Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}",
       product.definition.storeSpecificId, failureReason));
+    isDonated = false;
     if (OnDonated != null)
-      OnDonated(false);
+      OnDonated(isDonated);
   }
 }

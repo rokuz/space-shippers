@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour
   public Text gameTimer;
   public float startTimerDuration = 3.0f;
 
+  public SceneController sceneController;
+
   public delegate void OnGameTickEvent(float dt);
   public event OnGameTickEvent OnGameTick;
 
@@ -64,7 +66,7 @@ public class GameController : MonoBehaviour
   private float menuPanelShowHideTime;
   private RectTransform menuPanelRectTransform;
 
-  private CrystalStock crystalStock = new CrystalStock();
+  private CrystalStock crystalStock = null;
 
   public CrystalStock Stock
   {
@@ -76,8 +78,24 @@ public class GameController : MonoBehaviour
     get { return gameStarted && !gameFinished; }
   }
 
+  public bool IsPlayingOrPreparing
+  {
+    get { return (gameStarted && !gameFinished) || ingameUI.activeSelf; }
+  }
+
+  public bool IsGameStarted
+  {
+    get { return gameStarted; }
+  }
+
+  private BannerView bannerView;
+
 	public void Start()
   {
+    SmartCultureInfo systemLanguage = LanguageManager.Instance.GetDeviceCultureIfSupported();
+    if (systemLanguage != null)
+      LanguageManager.Instance.ChangeLanguage(systemLanguage);
+  
     ingameUI.SetActive(false);
 
     menuPanel.SetActive(false);
@@ -105,9 +123,25 @@ public class GameController : MonoBehaviour
     #endif
 
     MobileAds.Initialize(appId);
-    BannerView bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
+    bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
     AdRequest request = new AdRequest.Builder().Build();
     bannerView.LoadAd(request);
+  }
+
+  public void DestroyBanner()
+  {
+    if (bannerView != null)
+      bannerView.Destroy();
+  }
+
+  public void ClearGameTickSubscribers()
+  {
+    if (OnGameTick != null)
+    {
+      var delegatesList = OnGameTick.GetInvocationList();
+      foreach (var d in delegatesList)
+        OnGameTick -= (d as OnGameTickEvent);
+    }
   }
 
   private void InitGameplay()
@@ -115,10 +149,14 @@ public class GameController : MonoBehaviour
     ingameUI.SetActive(true);
     runTimestamp = Time.time;
     textOnStart = new string[] { "", "3", "2", "1", LanguageManager.Instance.GetTextValue("StartTimerGo") };
+    startTimer.gameObject.SetActive(true);
     startTimer.text = textOnStart[0];
     gameTimer.text = FormatTime(missionController.LevelDuration);
 
-    crystalStock.OnStockAmountChanged += OnStockAmountChanged;
+    crystalStock = new CrystalStock();
+    crystalStock.OnStockAmountChanged = OnStockAmountChanged;
+
+    sceneController.RestartScene();
 
     Crystal[] types = new Crystal[] { Crystal.Purple, Crystal.Yellow, Crystal.Cian };
     for (int i = 0; i < types.Length; i++)
@@ -173,6 +211,14 @@ public class GameController : MonoBehaviour
   public bool Paused
   {
     get { return menuPanel.activeSelf; }
+  }
+
+  public void RestartMission()
+  {
+    gameStarted = false;
+    gameFinished = false;
+    missionController.RestartMission();
+    InitGameplay();
   }
 
   private bool UpdateMissionPanel()
@@ -275,79 +321,79 @@ public class GameController : MonoBehaviour
     obj.SetActive(isWaiting);
   }
 
-    private void OnStockAmountChanged(Crystal crystal, uint amount)
-    {
-        OnCrystalsAmountChanged(crystal, amount);
-    }
+  private void OnStockAmountChanged(Crystal crystal, uint amount)
+  {
+    OnCrystalsAmountChanged(crystal, amount);
+  }
 
-    private void UpdateCrystalsText(Crystal crystal, uint amount)
-    {
-      Text text = FindCrystalsText(crystal);
-      text.text = "" + amount;
-    }
+  private void UpdateCrystalsText(Crystal crystal, uint amount)
+  {
+    Text text = FindCrystalsText(crystal);
+    text.text = "" + amount;
+  }
 
-    private void PrepareToPlay(float dt)
-    {
-        float d = Mathf.Clamp(dt, 0.0f, startTimerDuration) / startTimerDuration;
-        int index = (int)(d * textOnStart.Length);
-        if (index < 0) index = 0;
-        if (index > textOnStart.Length - 1) index = textOnStart.Length - 1;
+  private void PrepareToPlay(float dt)
+  {
+    float d = Mathf.Clamp(dt, 0.0f, startTimerDuration) / startTimerDuration;
+    int index = (int)(d * textOnStart.Length);
+    if (index < 0) index = 0;
+    if (index > textOnStart.Length - 1) index = textOnStart.Length - 1;
 
-        startTimer.text = textOnStart[index];
+    startTimer.text = textOnStart[index];
 
-        float p = d * textOnStart.Length - index;
-        float s = 1.0f + p;
-        startTimer.transform.localScale = new Vector3(s, s, s);
-        float a = 1.0f - p;
-        startTimer.color = new Color(1.0f, 1.0f, 1.0f, a);
-    }
+    float p = d * textOnStart.Length - index;
+    float s = 1.0f + p;
+    startTimer.transform.localScale = new Vector3(s, s, s);
+    float a = 1.0f - p;
+    startTimer.color = new Color(1.0f, 1.0f, 1.0f, a);
+  }
 
-    private string FormatTime(float seconds)
-    {
-        string m = Mathf.Floor(seconds / 60.0f).ToString("00");
-        string s = ((int)(seconds) % 60).ToString("00");
-        return m + ":" + s;
-    }
+  private string FormatTime(float seconds)
+  {
+    string m = Mathf.Floor(seconds / 60.0f).ToString("00");
+    string s = ((int)(seconds) % 60).ToString("00");
+    return m + ":" + s;
+  }
 
-    private Text FindCrystalsText(Crystal crystal)
-    {
-        switch (crystal)
-        {
-            case Crystal.Red:
-                return redCrystals;
-            case Crystal.Green:
-                return greenCrystals;
-            case Crystal.Blue:
-                return blueCrystals;
-            case Crystal.Yellow:
-                return yellowCrystals;
-            case Crystal.Purple:
-                return purpleCrystals;
-            case Crystal.Cian:
-                return cianCrystals;
-        }
-        return null;
-    }
+  private Text FindCrystalsText(Crystal crystal)
+  {
+      switch (crystal)
+      {
+          case Crystal.Red:
+              return redCrystals;
+          case Crystal.Green:
+              return greenCrystals;
+          case Crystal.Blue:
+              return blueCrystals;
+          case Crystal.Yellow:
+              return yellowCrystals;
+          case Crystal.Purple:
+              return purpleCrystals;
+          case Crystal.Cian:
+              return cianCrystals;
+      }
+      return null;
+  }
 
-    private RectTransform FindCrystalsProgress(Crystal crystal)
-    {
-        switch (crystal)
-        {
-            case Crystal.Red:
-                return redCrystalsProgress;
-            case Crystal.Green:
-                return greenCrystalsProgress;
-            case Crystal.Blue:
-                return blueCrystalsProgress;
-            case Crystal.Yellow:
-                return yellowCrystalsProgress;
-            case Crystal.Purple:
-                return purpleCrystalsProgress;
-            case Crystal.Cian:
-                return cianCrystalsProgress;
-        }
-        return null;
-    }
+  private RectTransform FindCrystalsProgress(Crystal crystal)
+  {
+      switch (crystal)
+      {
+          case Crystal.Red:
+              return redCrystalsProgress;
+          case Crystal.Green:
+              return greenCrystalsProgress;
+          case Crystal.Blue:
+              return blueCrystalsProgress;
+          case Crystal.Yellow:
+              return yellowCrystalsProgress;
+          case Crystal.Purple:
+              return purpleCrystalsProgress;
+          case Crystal.Cian:
+              return cianCrystalsProgress;
+      }
+      return null;
+  }
 
   private GameObject FindWaitingTank(Crystal crystal)
   {

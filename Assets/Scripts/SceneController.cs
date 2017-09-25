@@ -18,6 +18,13 @@ public class SceneController : MonoBehaviour
 
 	void Start()
 	{
+    RestartScene();
+	}
+
+  public void RestartScene()
+  {
+    gameContoller.ClearGameTickSubscribers();
+
     planets = new Planet[orbits.Length];
     for (int i = 0; i < orbits.Length; i++)
     {
@@ -25,12 +32,21 @@ public class SceneController : MonoBehaviour
 
       CrystalFactory factory = orbits[i].gameObject.GetComponentInChildren<CrystalFactory>(true);
       gameContoller.OnGameTick += factory.OnGameTick;
-      factory.OnAmountChanged += gameContoller.OnCrystalsAmountChanged;
-      factory.OnProgress += gameContoller.OnProgress;
-      factory.OnWaiting += gameContoller.OnWaiting;
+      factory.OnAmountChanged = gameContoller.OnCrystalsAmountChanged;
+      factory.OnProgress = gameContoller.OnProgress;
+      factory.OnWaiting = gameContoller.OnWaiting;
       factory.Stock = gameContoller.Stock;
+      factory.Reset();
     }
-	}
+
+    var objects = GameObject.FindGameObjectsWithTag("Spaceship");
+    foreach (var obj in objects)
+      GameObject.Destroy(obj);
+
+    var effects = GameObject.FindGameObjectsWithTag("Effect");
+    foreach (var effect in effects)
+      GameObject.Destroy(effect);
+  }
 
 	void Update()
 	{

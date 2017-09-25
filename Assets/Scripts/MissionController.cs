@@ -150,11 +150,18 @@ public class MissionController : MonoBehaviour
       var planet = planets[indices[i]];
       planet.PlanetOrbit.ApplyRadius(orbitRadiuses[i]);
       planet.speed = missions[currentMissionIndex].planetsSpeeds[i];
+
+      if (currentMissionIndex == 0 && planet.GetComponent<CrystalFactory>().crystalType == Crystal.Blue)
+        planet.startPosition = 0.0f;
+
       planet.ApplyInitialTransform();
     }
 
-    if (currentMissionIndex == 0 && tutorialStep == 0)
+    if (currentMissionIndex == 0)
     {
+      tutorialStep = 0;
+      FindPlanet(Crystal.Red).tutorialPointer.SetActive(false);
+      FindPlanet(Crystal.Green).tutorialPointer.SetActive(false);
       tutorialText.gameObject.SetActive(true);
       tutorialText.text = lang.GetTextValue("Tutorial_1");
       tutorialStep++;
@@ -170,6 +177,11 @@ public class MissionController : MonoBehaviour
   {
     int nextMission = currentMissionIndex + 1;
     InitMission(nextMission);
+  }
+
+  public void RestartMission()
+  {
+    InitMission(currentMissionIndex);
   }
 	
   public void ApplyCrystals(Crystal type, uint amount)
