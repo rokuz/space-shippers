@@ -116,7 +116,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="MissionGoal" xml:space="preserve">
+		<value>Mine</value>
+	</data>
+	<data name="MissionNameTitle" xml:space="preserve">
+		<value>Mission</value>
+	</data>
+	<data name="MissionStartButton" xml:space="preserve">
+		<value>Start</value>
+	</data>
 	<data name="StartTimerGo" xml:space="preserve">
 		<value>Go!</value>
+	</data>
+	<data name="Tutorial_1" xml:space="preserve">
+		<value>Wait for the production of a red mineral and a green mineral</value>
+	</data>
+	<data name="Tutorial_2" xml:space="preserve">
+		<value>To send the spaceship tap to the red planet</value>
+	</data>
+	<data name="Tutorial_3" xml:space="preserve">
+		<value>Now drag finger to the green planet</value>
 	</data>
 </root>

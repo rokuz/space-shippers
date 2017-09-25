@@ -116,7 +116,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="MissionGoal" xml:space="preserve">
+		<value>Добыть</value>
+	</data>
+	<data name="MissionNameTitle" xml:space="preserve">
+		<value>Миссия</value>
+	</data>
+	<data name="MissionStartButton" xml:space="preserve">
+		<value>Начать</value>
+	</data>
 	<data name="StartTimerGo" xml:space="preserve">
 		<value>Поехали!</value>
+	</data>
+	<data name="Tutorial_1" xml:space="preserve">
+		<value>Дождитесь окончания производства красного и зеленого минералов</value>
+	</data>
+	<data name="Tutorial_2" xml:space="preserve">
+		<value>Для оправки корабля коснитесь красной планеты</value>
+	</data>
+	<data name="Tutorial_3" xml:space="preserve">
+		<value>А теперь потяните пальц к зеленой планете</value>
 	</data>
 </root>

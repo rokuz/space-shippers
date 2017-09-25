@@ -2,127 +2,278 @@
 using UnityEngine.UI;
 using System.Collections;
 using SmartLocalization;
+using GoogleMobileAds.Api;
 
 public class GameController : MonoBehaviour
 {
-    public MissonController missionController;
-    public Text startTimer;
-    public Text gameTimer;
-    public float startTimerDuration = 3.0f;
+  public MissionController missionController;
+  public Text startTimer;
+  public Text gameTimer;
+  public float startTimerDuration = 3.0f;
 
-    public delegate void OnGameTickEvent(float dt);
-    public event OnGameTickEvent OnGameTick;
+  public delegate void OnGameTickEvent(float dt);
+  public event OnGameTickEvent OnGameTick;
 
-    public Text redCrystals;
-    public Text greenCrystals;
-    public Text blueCrystals;
-    public Text yellowCrystals;
-    public Text purpleCrystals;
-    public Text cianCrystals;
+  public GameObject ingameUI;
 
-    public RectTransform redCrystalsProgress;
-    public RectTransform greenCrystalsProgress;
-    public RectTransform blueCrystalsProgress;
-    public RectTransform yellowCrystalsProgress;
-    public RectTransform purpleCrystalsProgress;
-    public RectTransform cianCrystalsProgress;
+  public Text redCrystals;
+  public Text greenCrystals;
+  public Text blueCrystals;
+  public Text yellowCrystals;
+  public Text purpleCrystals;
+  public Text cianCrystals;
 
-    public GameObject redCrystalsWaitingTank;
-    public GameObject greenCrystalsWaitingTank;
-    public GameObject blueCrystalsWaitingTank;
-    public GameObject yellowCrystalsWaitingTank;
-    public GameObject purpleCrystalsWaitingTank;
-    public GameObject cianCrystalsWaitingTank;
+  public RectTransform redCrystalsProgress;
+  public RectTransform greenCrystalsProgress;
+  public RectTransform blueCrystalsProgress;
+  public RectTransform yellowCrystalsProgress;
+  public RectTransform purpleCrystalsProgress;
+  public RectTransform cianCrystalsProgress;
 
-    private bool gameStarted = false;
-    private float runTimestamp;
-    private string[] textOnStart;
+  public GameObject redCrystalsWaitingTank;
+  public GameObject greenCrystalsWaitingTank;
+  public GameObject blueCrystalsWaitingTank;
+  public GameObject yellowCrystalsWaitingTank;
+  public GameObject purpleCrystalsWaitingTank;
+  public GameObject cianCrystalsWaitingTank;
 
-    private float playTimestamp;
-    private bool gameFinished = false;
+  private bool gameStarted = false;
+  private float runTimestamp;
+  private string[] textOnStart;
 
-    private CrystalStock crystalStock = new CrystalStock();
+  private float playTimestamp;
+  private bool gameFinished = false;
 
-    public CrystalStock Stock
-    {
-        get { return crystalStock; }
-    }
+  private float runElapsedTime = 0.0f;
+  private float playElapsedTime = 0.0f;
 
-    public bool IsPlaying
-    {
-        get { return gameStarted && !gameFinished; }
-    }
+  // Mission panel.
+  public GameObject missionPanel;
+  private bool needShowMissionPanel = true;
+  private bool needHideMissionPanel = false;
+  private float missionPanelInitialPositionY = 0;
+  private float missionPanelShowHideTime;
+  private RectTransform missionPanelRectTransform;
+  private bool missionStarted = false;
+
+  // Menu panel.
+  public GameObject menuPanel;
+  private bool needShowMenuPanel = false;
+  private bool needHideMenuPanel = false;
+  private float menuPanelInitialPositionY = 0;
+  private float menuPanelShowHideTime;
+  private RectTransform menuPanelRectTransform;
+
+  private CrystalStock crystalStock = new CrystalStock();
+
+  public CrystalStock Stock
+  {
+    get { return crystalStock; }
+  }
+
+  public bool IsPlaying
+  {
+    get { return gameStarted && !gameFinished; }
+  }
 
 	public void Start()
-    {
-        runTimestamp = Time.time;
-        textOnStart = new string[] { "", "3", "2", "1", LanguageManager.Instance.GetTextValue("StartTimerGo") };
-        gameTimer.text = FormatTime(missionController.LevelDuration);
+  {
+    ingameUI.SetActive(false);
 
-        crystalStock.OnStockAmountChanged += OnStockAmountChanged;
+    menuPanel.SetActive(false);
+    menuPanelRectTransform = menuPanel.GetComponent<RectTransform>();
+    menuPanelInitialPositionY = menuPanelRectTransform.localPosition.y;
 
-        Crystal[] types = new Crystal[] { Crystal.Purple, Crystal.Yellow, Crystal.Cian };
-        for (int i = 0; i < types.Length; i++)
-            UpdateCrystalsText(types[i], 0);
+    missionPanel.SetActive(true);
+    missionPanelRectTransform = missionPanel.GetComponent<RectTransform>();
+    missionPanelInitialPositionY = missionPanelRectTransform.localPosition.y;
+
+    RequestBanner();
 	}
+
+  private void RequestBanner()
+  {
+    #if UNITY_ANDROID
+      string adUnitId = "ca-app-pub-8904882368983998/3748761996";
+      string appId = "ca-app-pub-8904882368983998~4680190977";
+    #elif UNITY_IPHONE
+      string adUnitId = "";
+      string appId = "";
+    #else
+      string adUnitId = "unexpected_platform";
+      string appId = "unexpected_platform";
+    #endif
+
+    MobileAds.Initialize(appId);
+    BannerView bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
+    AdRequest request = new AdRequest.Builder().Build();
+    bannerView.LoadAd(request);
+  }
+
+  private void InitGameplay()
+  {
+    ingameUI.SetActive(true);
+    runTimestamp = Time.time;
+    textOnStart = new string[] { "", "3", "2", "1", LanguageManager.Instance.GetTextValue("StartTimerGo") };
+    startTimer.text = textOnStart[0];
+    gameTimer.text = FormatTime(missionController.LevelDuration);
+
+    crystalStock.OnStockAmountChanged += OnStockAmountChanged;
+
+    Crystal[] types = new Crystal[] { Crystal.Purple, Crystal.Yellow, Crystal.Cian };
+    for (int i = 0; i < types.Length; i++)
+      UpdateCrystalsText(types[i], 0);
+  }
 
 	public void Update()
+  {
+    bool uiResult = UpdateMissionPanel();
+    uiResult = UpdateMenuPanel() || uiResult;
+    if (uiResult)
+      return;
+
+    if (!missionStarted)
+      return;
+    if (this.Paused)
+      return;
+    
+    if (!gameStarted)
     {
-        if (!gameStarted)
-        {
-            float delta = Time.time - runTimestamp;
-            if (delta <= startTimerDuration)
-            {
-                PrepareToPlay(delta);
-            }
-            else
-            {
-                gameStarted = true;
-                playTimestamp = Time.time;
-                startTimer.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            float delta = Time.time - playTimestamp;
-            if (delta <= missionController.LevelDuration)
-            {
-                if (OnGameTick != null)
-                    OnGameTick(Time.deltaTime);
-                
-                gameTimer.text = FormatTime(missionController.LevelDuration - delta);
-            }
-            else
-            {
-                gameTimer.text = "00:00";
-                gameFinished = true;
-                //game over
-            }
-        }
+      float delta = Time.time - runTimestamp;
+      if (delta <= startTimerDuration)
+      {
+        PrepareToPlay(delta);
+      }
+      else
+      {
+        gameStarted = true;
+        playTimestamp = Time.time;
+        startTimer.gameObject.SetActive(false);
+      }
+    }
+    else
+    {
+      float delta = Time.time - playTimestamp;
+      if (delta <= missionController.LevelDuration)
+      {
+        if (OnGameTick != null)
+          OnGameTick(Time.deltaTime);
+        
+        gameTimer.text = FormatTime(missionController.LevelDuration - delta);
+      }
+      else
+      {
+        gameTimer.text = "00:00";
+        gameFinished = true;
+        //game over
+      }
+    }
 	}
 
-    public void OnCrystalsAmountChanged(Crystal crystal, uint amount)
+  public bool Paused
+  {
+    get { return menuPanel.activeSelf; }
+  }
+
+  private bool UpdateMissionPanel()
+  {
+    if (needShowMissionPanel)
     {
-        if (gameFinished)
-            return;
+      if (!missionPanel.activeSelf)
+      {
+        missionPanel.SetActive(true);
+        missionPanelShowHideTime = Time.time;
+      }
 
-        missionController.ApplyCrystals(crystal, amount);
-        UpdateCrystalsText(crystal, amount);
+      var y = Mathf.Lerp(missionPanelInitialPositionY, 0.0f, Mathf.Clamp((Time.time - missionPanelShowHideTime) / 0.5f, 0.0f, 1.0f));
+      missionPanelRectTransform.localPosition = new Vector3(missionPanelRectTransform.localPosition.x, y,
+        missionPanelRectTransform.localPosition.z);
+
+      if (y == 0.0)
+        needShowMissionPanel = false;
+
+      return true;
     }
-
-    public void OnProgress(Crystal crystal, float progress)
+    else if (needHideMissionPanel)
     {
-        progress = Mathf.Clamp(progress, 0.0f, 1.0f);
-        var progressRectTransform = FindCrystalsProgress(crystal);
-        progressRectTransform.sizeDelta = new Vector2(100.0f * progress, 10.0f);
+      var y = Mathf.Lerp(0.0f, missionPanelInitialPositionY, Mathf.Clamp((Time.time - missionPanelShowHideTime) / 0.3f, 0.0f, 1.0f));
+      missionPanelRectTransform.localPosition = new Vector3(missionPanelRectTransform.localPosition.x, y,
+        missionPanelRectTransform.localPosition.z);
 
+      if (y == missionPanelInitialPositionY)
+      {
+        missionPanel.SetActive(false);
+        needHideMissionPanel = false;
+      }
+      return true;
     }
+    return false;
+  }
 
-    public void OnWaiting(Crystal crystal, bool isWaiting)
+  private bool UpdateMenuPanel()
+  {
+    if (needShowMenuPanel)
     {
-        var obj = FindWaitingTank(crystal);
-        obj.SetActive(isWaiting);
+      if (!menuPanel.activeSelf)
+      {
+        menuPanel.SetActive(true);
+        menuPanelShowHideTime = Time.time;
+        if (!gameStarted)
+          runElapsedTime = Time.time - runTimestamp;
+        else
+          playElapsedTime = Time.time - playTimestamp;
+      }
+
+      var y = Mathf.Lerp(menuPanelInitialPositionY, 0.0f, Mathf.Clamp((Time.time - menuPanelShowHideTime) / 0.5f, 0.0f, 1.0f));
+      menuPanelRectTransform.localPosition = new Vector3(menuPanelRectTransform.localPosition.x, y,
+        menuPanelRectTransform.localPosition.z);
+
+      if (y == 0.0)
+        needShowMenuPanel = false;
+
+      return true;
     }
+    else if (needHideMenuPanel)
+    {
+      var y = Mathf.Lerp(0.0f, menuPanelInitialPositionY, Mathf.Clamp((Time.time - menuPanelShowHideTime) / 0.3f, 0.0f, 1.0f));
+      menuPanelRectTransform.localPosition = new Vector3(menuPanelRectTransform.localPosition.x, y,
+        menuPanelRectTransform.localPosition.z);
+
+      if (y == menuPanelInitialPositionY)
+      {
+        menuPanel.SetActive(false);
+        needHideMenuPanel = false;
+        if (!gameStarted)
+          runTimestamp = Time.time - runElapsedTime;
+        else
+          playTimestamp = Time.time - playElapsedTime;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  public void OnCrystalsAmountChanged(Crystal crystal, uint amount)
+  {
+    if (gameFinished)
+        return;
+
+    missionController.ApplyCrystals(crystal, amount);
+    UpdateCrystalsText(crystal, amount);
+  }
+
+  public void OnProgress(Crystal crystal, float progress)
+  {
+    progress = Mathf.Clamp(progress, 0.0f, 1.0f);
+    var progressRectTransform = FindCrystalsProgress(crystal);
+    progressRectTransform.sizeDelta = new Vector2(100.0f * progress, 10.0f);
+  }
+
+  public void OnWaiting(Crystal crystal, bool isWaiting)
+  {
+    var obj = FindWaitingTank(crystal);
+    obj.SetActive(isWaiting);
+  }
 
     private void OnStockAmountChanged(Crystal crystal, uint amount)
     {
@@ -131,9 +282,8 @@ public class GameController : MonoBehaviour
 
     private void UpdateCrystalsText(Crystal crystal, uint amount)
     {
-        //string goalStr = missionController.GetGoalString(crystal);
-        Text text = FindCrystalsText(crystal);
-        text.text = "" + amount;
+      Text text = FindCrystalsText(crystal);
+      text.text = "" + amount;
     }
 
     private void PrepareToPlay(float dt)
@@ -199,23 +349,65 @@ public class GameController : MonoBehaviour
         return null;
     }
 
-    private GameObject FindWaitingTank(Crystal crystal)
+  private GameObject FindWaitingTank(Crystal crystal)
+  {
+    switch (crystal)
     {
-        switch (crystal)
-        {
-            case Crystal.Red:
-                return redCrystalsWaitingTank;
-            case Crystal.Green:
-                return greenCrystalsWaitingTank;
-            case Crystal.Blue:
-                return blueCrystalsWaitingTank;
-            case Crystal.Yellow:
-                return yellowCrystalsWaitingTank;
-            case Crystal.Purple:
-                return purpleCrystalsWaitingTank;
-            case Crystal.Cian:
-                return cianCrystalsWaitingTank;
-        }
-        return null;
+      case Crystal.Red:
+          return redCrystalsWaitingTank;
+      case Crystal.Green:
+          return greenCrystalsWaitingTank;
+      case Crystal.Blue:
+          return blueCrystalsWaitingTank;
+      case Crystal.Yellow:
+          return yellowCrystalsWaitingTank;
+      case Crystal.Purple:
+          return purpleCrystalsWaitingTank;
+      case Crystal.Cian:
+          return cianCrystalsWaitingTank;
     }
+    return null;
+  }
+
+  public void OnStartMission()
+  {
+    needHideMissionPanel = true;
+    needShowMissionPanel = false;
+    missionStarted = true;
+    missionPanelShowHideTime = Time.time;
+    InitGameplay();
+  }
+
+  public void OnMissionCompleted()
+  {
+    
+  }
+
+  public void OnMenuClicked()
+  {
+    if (!menuPanel.activeSelf)
+    {
+      if (missionPanel.activeSelf && !needShowMissionPanel && !needHideMissionPanel)
+      {
+        needHideMissionPanel = true;
+        needShowMissionPanel = false;
+        missionPanelShowHideTime = Time.time;
+      }
+      needShowMenuPanel = true;
+      needHideMenuPanel = false;
+      menuPanelShowHideTime = Time.time;
+    }
+    else if (!needHideMenuPanel && !needShowMenuPanel)
+    {
+      if (!missionPanel.activeSelf && !missionStarted)
+      {
+        needHideMissionPanel = false;
+        needShowMissionPanel = true;
+        missionPanelShowHideTime = Time.time;
+      }
+      needShowMenuPanel = false;
+      needHideMenuPanel = true;
+      menuPanelShowHideTime = Time.time;
+    }
+  }
 }
