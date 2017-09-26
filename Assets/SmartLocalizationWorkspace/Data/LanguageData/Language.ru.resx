@@ -131,11 +131,23 @@
 	<data name="Menu_Title" xml:space="preserve">
 		<value>Меню</value>
 	</data>
+	<data name="MissionCongratulations" xml:space="preserve">
+		<value>Поздравляем!</value>
+	</data>
+	<data name="MissionFailed" xml:space="preserve">
+		<value>Миссия провалена</value>
+	</data>
 	<data name="MissionGoal" xml:space="preserve">
 		<value>Добыть</value>
 	</data>
 	<data name="MissionNameTitle" xml:space="preserve">
 		<value>Миссия</value>
+	</data>
+	<data name="MissionNext" xml:space="preserve">
+		<value>Следующая миссия</value>
+	</data>
+	<data name="MissionRetry" xml:space="preserve">
+		<value>Переиграть</value>
 	</data>
 	<data name="MissionStartButton" xml:space="preserve">
 		<value>Начать</value>

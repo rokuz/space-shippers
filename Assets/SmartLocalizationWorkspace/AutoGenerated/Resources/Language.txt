@@ -131,6 +131,12 @@
 	<data name="Menu_Title" xml:space="preserve">
 		<value />
 	</data>
+	<data name="MissionCongratulations" xml:space="preserve">
+		<value />
+	</data>
+	<data name="MissionFailed" xml:space="preserve">
+		<value />
+	</data>
 	<data name="MissionGoal" xml:space="preserve">
 		<value />
 	</data>
@@ -150,6 +156,12 @@
 		<value />
 	</data>
 	<data name="Tutorial_3" xml:space="preserve">
+		<value />
+	</data>
+	<data name="MissionNext" xml:space="preserve">
+		<value />
+	</data>
+	<data name="MissionRetry" xml:space="preserve">
 		<value />
 	</data>
 </root>

@@ -21,6 +21,14 @@ public class MissionController : MonoBehaviour
   public Toggle goalToggle3;
   public Button startMissionButton;
 
+  public GameObject missionCongratulationsPanel;
+  public Toggle congratulationsGoalToggle1;
+  public Toggle congratulationsGoalToggle2;
+  public Toggle congratulationsGoalToggle3;
+  public Button nextMissionButton;
+  [HideInInspector]
+  public bool missionFailed = false;
+
   public Sprite yellowCrystal;
   public Sprite cianCrystal;
   public Sprite purpleCrystal;
@@ -144,8 +152,54 @@ public class MissionController : MonoBehaviour
 
     startMissionButton.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("MissionStartButton");
 
+    UpdateMissionCompletionPanel();
     InitMission(Persistence.gameConfig.currentLevel);
 	}
+
+  public void UpdateMissionCompletionPanel()
+  {
+    if (missionFailed)
+      missionCongratulationsPanel.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("MissionFailed");
+    else
+      missionCongratulationsPanel.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("MissionCongratulations");
+
+    missionCongratulationsPanel.transform.Find("Text/Stars").gameObject.SetActive(!missionFailed);
+    var c = missionCongratulationsPanel.GetComponent<Image>().color;
+    c.a = (missionFailed ? 1.0f : 0.0f);
+    missionCongratulationsPanel.GetComponent<Image>().color = c;
+
+    var lang = LanguageManager.Instance;
+    Toggle[] toggles = new Toggle[] { congratulationsGoalToggle2, congratulationsGoalToggle1, congratulationsGoalToggle3 };
+    int currentToggle = 0;
+    if (missions[currentMissionIndex].cianCrystalsCount != 0)
+    {
+      toggles[currentToggle].gameObject.SetActive(true);
+      toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[currentMissionIndex].cianCrystalsCount;
+      toggles[currentToggle].isOn = (currentCianCrystalsCount == missions[currentMissionIndex].cianCrystalsCount);
+      FindCrystalImage(toggles[currentToggle].gameObject).sprite = cianCrystal;
+      currentToggle++;
+    }
+    if (missions[currentMissionIndex].yellowCrystalsCount != 0)
+    {
+      toggles[currentToggle].gameObject.SetActive(true);
+      toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[currentMissionIndex].yellowCrystalsCount;
+      toggles[currentToggle].isOn = (currentYellowCrystalsCount == missions[currentMissionIndex].yellowCrystalsCount);
+      FindCrystalImage(toggles[currentToggle].gameObject).sprite = yellowCrystal;
+      currentToggle++;
+    }
+    if (missions[currentMissionIndex].purpleCrystalsCount != 0)
+    {
+      toggles[currentToggle].gameObject.SetActive(true);
+      toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[currentMissionIndex].purpleCrystalsCount;
+      toggles[currentToggle].isOn = (currentPurpleCrystalsCount == missions[currentMissionIndex].purpleCrystalsCount);
+      FindCrystalImage(toggles[currentToggle].gameObject).sprite = purpleCrystal;
+      currentToggle++;
+    }
+    for (int i = currentToggle; i < toggles.Length; i++)
+      toggles[i].gameObject.SetActive(false);
+
+    nextMissionButton.GetComponentInChildren<Text>().text = lang.GetTextValue(missionFailed ? "MissionRetry" : "MissionNext");
+  }
 
   private void InitMission(int index)
   {

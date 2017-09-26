@@ -217,6 +217,8 @@ public class GameController : MonoBehaviour
       return;
     if (this.Paused)
       return;
+    if (gameFinished)
+      return;
     
     if (!gameStarted)
     {
@@ -245,8 +247,18 @@ public class GameController : MonoBehaviour
       else
       {
         gameTimer.text = "00:00";
-        gameFinished = true;
-        //game over
+        if (!gameFinished)
+        {
+          gameFinished = true;
+          missionController.missionFailed = true;
+        }
+        if (!missionCompletionPanel.activeSelf && !needShowMissionCompletionPanel)
+        {
+          missionController.UpdateMissionCompletionPanel();
+          needShowMissionCompletionPanel = true;
+          needHideMissionCompletionPanel = false;
+          missionCompletionPanelShowHideTime = Time.time;
+        }
       }
     }
 	}
@@ -261,6 +273,14 @@ public class GameController : MonoBehaviour
     gameStarted = false;
     gameFinished = false;
     missionController.RestartMission();
+    InitGameplay();
+  }
+
+  public void NextMission()
+  {
+    gameStarted = false;
+    gameFinished = false;
+    missionController.SetupNextMission();
     InitGameplay();
   }
 
@@ -309,7 +329,7 @@ public class GameController : MonoBehaviour
         missionCompletionPanelShowHideTime = Time.time;
       }
 
-      var y = Mathf.Lerp(missionCompletionPanelInitialPositionY, 0.0f, Mathf.Clamp((Time.time - missionCompletionPanelShowHideTime) / 0.4f, 0.0f, 1.0f));
+      var y = Mathf.Lerp(missionCompletionPanelInitialPositionY, 0.0f, Mathf.Clamp((Time.time - missionCompletionPanelShowHideTime) / 0.5f, 0.0f, 1.0f));
       missionCompletionPanelRectTransform.localPosition = new Vector3(missionCompletionPanelRectTransform.localPosition.x, y,
                                                                       missionCompletionPanelRectTransform.localPosition.z);
 
@@ -504,6 +524,9 @@ public class GameController : MonoBehaviour
 
   public void OnMissionCompleted()
   {
+    if (missionCompleted)
+      return;
+
     missionCompleted = true;
 
     if (menuPanel.activeSelf && !needHideMenuPanel)
@@ -519,6 +542,13 @@ public class GameController : MonoBehaviour
       needHideMissionCompletionPanel = false;
       missionCompletionPanelShowHideTime = Time.time;
     }
+
+    if (!gameFinished)
+    {
+      gameFinished = true;
+      missionController.missionFailed = false;
+      missionController.UpdateMissionCompletionPanel();
+    }
   }
 
   public void OnMenuClicked()
@@ -531,7 +561,8 @@ public class GameController : MonoBehaviour
         needShowMissionPanel = false;
         missionPanelShowHideTime = Time.time;
       }
-      else if (missionCompletionPanel.activeSelf && missionCompleted && !needHideMissionCompletionPanel)
+      else if (missionCompletionPanel.activeSelf && (missionCompleted || missionController.missionFailed) &&
+               !needHideMissionCompletionPanel)
       {
         needShowMissionCompletionPanel = false;
         needHideMissionCompletionPanel = true;
@@ -558,6 +589,21 @@ public class GameController : MonoBehaviour
       needShowMenuPanel = false;
       needHideMenuPanel = true;
       menuPanelShowHideTime = Time.time;
+    }
+  }
+
+  public void OnNextMission()
+  {
+    if (missionController.missionFailed)
+      RestartMission();
+    else
+      NextMission();
+
+    if (missionCompletionPanel.activeSelf && !needHideMissionCompletionPanel)
+    {
+      needShowMissionCompletionPanel = false;
+      needHideMissionCompletionPanel = true;
+      missionCompletionPanelShowHideTime = Time.time;
     }
   }
 }
