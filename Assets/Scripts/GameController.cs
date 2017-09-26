@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using SmartLocalization;
+using GoogleMobileAds;
 using GoogleMobileAds.Api;
 
 public class GameController : MonoBehaviour
@@ -66,6 +68,15 @@ public class GameController : MonoBehaviour
   private float menuPanelShowHideTime;
   private RectTransform menuPanelRectTransform;
 
+  // Menu completion panel.
+  public GameObject missionCompletionPanel;
+  private bool needShowMissionCompletionPanel = false;
+  private bool needHideMissionCompletionPanel = false;
+  private float missionCompletionPanelInitialPositionY = 0;
+  private float missionCompletionPanelShowHideTime;
+  private RectTransform missionCompletionPanelRectTransform;
+  private bool missionCompleted = false;
+
   private CrystalStock crystalStock = null;
 
   public CrystalStock Stock
@@ -90,6 +101,11 @@ public class GameController : MonoBehaviour
 
   private BannerView bannerView;
 
+  public void Awake()
+  {
+    Persistence.Load();
+  }
+
 	public void Start()
   {
     SmartCultureInfo systemLanguage = LanguageManager.Instance.GetDeviceCultureIfSupported();
@@ -105,6 +121,10 @@ public class GameController : MonoBehaviour
     missionPanel.SetActive(true);
     missionPanelRectTransform = missionPanel.GetComponent<RectTransform>();
     missionPanelInitialPositionY = missionPanelRectTransform.localPosition.y;
+
+    missionCompletionPanel.SetActive(false);
+    missionCompletionPanelRectTransform = missionCompletionPanel.GetComponent<RectTransform>();
+    missionCompletionPanelInitialPositionY = missionCompletionPanelRectTransform.localPosition.y;
 
     RequestBanner();
 	}
@@ -125,7 +145,29 @@ public class GameController : MonoBehaviour
     MobileAds.Initialize(appId);
     bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
     AdRequest request = new AdRequest.Builder().Build();
+
+    this.bannerView.OnAdLoaded += this.HandleAdLoaded;
+    this.bannerView.OnAdFailedToLoad += this.HandleAdFailedToLoad;
+    this.bannerView.OnAdLeavingApplication += this.HandleAdLeftApplication;
+
     bannerView.LoadAd(request);
+  }
+
+  public void HandleAdLoaded(object sender, EventArgs args)
+  {
+
+  }
+
+  public void HandleAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
+  {
+
+  }
+
+  public void HandleAdLeftApplication(object sender, EventArgs args)
+  {
+    // Pause app.
+    if (IsPlayingOrPreparing && !menuPanel.activeSelf)
+      OnMenuClicked();
   }
 
   public void DestroyBanner()
@@ -167,6 +209,7 @@ public class GameController : MonoBehaviour
   {
     bool uiResult = UpdateMissionPanel();
     uiResult = UpdateMenuPanel() || uiResult;
+    uiResult = UpdateMissionCompletionPanel() || uiResult;
     if (uiResult)
       return;
 
@@ -250,6 +293,41 @@ public class GameController : MonoBehaviour
       {
         missionPanel.SetActive(false);
         needHideMissionPanel = false;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  private bool UpdateMissionCompletionPanel()
+  {
+    if (needShowMissionCompletionPanel)
+    {
+      if (!missionCompletionPanel.activeSelf)
+      {
+        missionCompletionPanel.SetActive(true);
+        missionCompletionPanelShowHideTime = Time.time;
+      }
+
+      var y = Mathf.Lerp(missionCompletionPanelInitialPositionY, 0.0f, Mathf.Clamp((Time.time - missionCompletionPanelShowHideTime) / 0.4f, 0.0f, 1.0f));
+      missionCompletionPanelRectTransform.localPosition = new Vector3(missionCompletionPanelRectTransform.localPosition.x, y,
+                                                                      missionCompletionPanelRectTransform.localPosition.z);
+
+      if (y == 0.0)
+        needShowMissionCompletionPanel = false;
+
+      return true;
+    }
+    else if (needHideMissionCompletionPanel)
+    {
+      var y = Mathf.Lerp(0.0f, missionCompletionPanelInitialPositionY, Mathf.Clamp((Time.time - missionCompletionPanelShowHideTime) / 0.3f, 0.0f, 1.0f));
+      missionCompletionPanelRectTransform.localPosition = new Vector3(missionCompletionPanelRectTransform.localPosition.x, y,
+                                                                      missionCompletionPanelRectTransform.localPosition.z);
+
+      if (y == missionCompletionPanelInitialPositionY)
+      {
+        missionCompletionPanel.SetActive(false);
+        needHideMissionCompletionPanel = false;
       }
       return true;
     }
@@ -426,7 +504,21 @@ public class GameController : MonoBehaviour
 
   public void OnMissionCompleted()
   {
-    
+    missionCompleted = true;
+
+    if (menuPanel.activeSelf && !needHideMenuPanel)
+    {
+      needShowMenuPanel = false;
+      needHideMenuPanel = true;
+      menuPanelShowHideTime = Time.time;
+    }
+
+    if (!needShowMissionCompletionPanel)
+    {
+      needShowMissionCompletionPanel = true;
+      needHideMissionCompletionPanel = false;
+      missionCompletionPanelShowHideTime = Time.time;
+    }
   }
 
   public void OnMenuClicked()
@@ -439,17 +531,29 @@ public class GameController : MonoBehaviour
         needShowMissionPanel = false;
         missionPanelShowHideTime = Time.time;
       }
+      else if (missionCompletionPanel.activeSelf && missionCompleted && !needHideMissionCompletionPanel)
+      {
+        needShowMissionCompletionPanel = false;
+        needHideMissionCompletionPanel = true;
+        missionCompletionPanelShowHideTime = Time.time;
+      }
       needShowMenuPanel = true;
       needHideMenuPanel = false;
       menuPanelShowHideTime = Time.time;
     }
     else if (!needHideMenuPanel && !needShowMenuPanel)
     {
-      if (!missionPanel.activeSelf && !missionStarted)
+      if (!missionPanel.activeSelf && !missionStarted && !missionCompleted)
       {
         needHideMissionPanel = false;
         needShowMissionPanel = true;
         missionPanelShowHideTime = Time.time;
+      }
+      else if (!missionCompletionPanel.activeSelf && missionCompleted)
+      {
+        needShowMissionCompletionPanel = true;
+        needHideMissionCompletionPanel = false;
+        missionCompletionPanelShowHideTime = Time.time;
       }
       needShowMenuPanel = false;
       needHideMenuPanel = true;

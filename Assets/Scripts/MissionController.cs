@@ -59,13 +59,66 @@ public class MissionController : MonoBehaviour
 
   private MissionDetails[] missions = new MissionDetails[]
   {
-    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 3, 4, 5 } /*planets speed*/, 5 /*ship speed*/), // Mission 1
-    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 10, 12, 20 } /*planets speed*/, 5 /*ship speed*/), // Mission 2
-    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/), // Mission 3
-    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/), // Mission 4
-    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/), // Mission 5
-    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/), // Mission 6
-    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/), // Mission 7
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 3, 4, 5 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 10, 12, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+
+    // 2
+    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 10, 12, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 10, 12, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+
+    // 3
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+
+    // 4
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 3 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 4 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(4 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 10, 12, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 4 /*cian*/, 0 /*purple*/, new float[]{ 10, 12, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 3 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 3 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 3 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+
+    // 5
+    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 3 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 4 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 3 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 4 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 3 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 4 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 5 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 3 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(4 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 4 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(5 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(4 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 3 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 5 /*cian*/, 0 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 3 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 10, 13, 20 } /*planets speed*/, 5 /*ship speed*/),
   };
 
   private int currentMissionIndex = 0;
@@ -91,8 +144,7 @@ public class MissionController : MonoBehaviour
 
     startMissionButton.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("MissionStartButton");
 
-    // TODO: read index from config
-    InitMission(0);
+    InitMission(Persistence.gameConfig.currentLevel);
 	}
 
   private void InitMission(int index)
@@ -116,20 +168,20 @@ public class MissionController : MonoBehaviour
     var lang = LanguageManager.Instance;
     missionNameText.text = lang.GetTextValue("MissionNameTitle") + " " + (currentMissionIndex + 1);
 
-    Toggle[] toggles = new Toggle[] { goalToggle1, goalToggle2, goalToggle3 };
+    Toggle[] toggles = new Toggle[] { goalToggle2, goalToggle1, goalToggle3 };
     int currentToggle = 0;
-    if (missions[index].yellowCrystalsCount != 0)
-    {
-      toggles[currentToggle].gameObject.SetActive(true);
-      toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[index].yellowCrystalsCount;
-      FindCrystalImage(toggles[currentToggle].gameObject).sprite = yellowCrystal;
-      currentToggle++;
-    }
     if (missions[index].cianCrystalsCount != 0)
     {
       toggles[currentToggle].gameObject.SetActive(true);
       toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[index].cianCrystalsCount;
       FindCrystalImage(toggles[currentToggle].gameObject).sprite = cianCrystal;
+      currentToggle++;
+    }
+    if (missions[index].yellowCrystalsCount != 0)
+    {
+      toggles[currentToggle].gameObject.SetActive(true);
+      toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[index].yellowCrystalsCount;
+      FindCrystalImage(toggles[currentToggle].gameObject).sprite = yellowCrystal;
       currentToggle++;
     }
     if (missions[index].purpleCrystalsCount != 0)

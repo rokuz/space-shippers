@@ -8,7 +8,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
   private static IStoreController storeController;
   private static IExtensionProvider storeExtensionProvider;
 
-  public static string kProductIDDonate = "com.ivprod.spaceshippers.donate";
+  public static string kProductIDDonate = "com.rokuz.spaceshippers.donate";
 
   public delegate void OnDonatedEvent(bool success);
   public event OnDonatedEvent OnDonated;

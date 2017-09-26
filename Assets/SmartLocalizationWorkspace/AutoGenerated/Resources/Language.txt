@@ -125,6 +125,9 @@
 	<data name="Menu_Resume" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Menu_Thanks" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Menu_Title" xml:space="preserve">
 		<value />
 	</data>
@@ -147,9 +150,6 @@
 		<value />
 	</data>
 	<data name="Tutorial_3" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Menu_Thanks" xml:space="preserve">
 		<value />
 	</data>
 </root>
