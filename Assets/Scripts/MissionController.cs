@@ -275,6 +275,8 @@ public class MissionController : MonoBehaviour
     else
     {
       tutorialText.gameObject.SetActive(false);
+      FindPlanet(Crystal.Red).tutorialPointer.SetActive(false);
+      FindPlanet(Crystal.Green).tutorialPointer.SetActive(false);
       tutorialStep = 0;
     }
   }
@@ -326,6 +328,11 @@ public class MissionController : MonoBehaviour
         currentCianCrystalsCount >= missions[currentMissionIndex].cianCrystalsCount &&
         currentPurpleCrystalsCount >= missions[currentMissionIndex].purpleCrystalsCount)
     {
+      tutorialText.gameObject.SetActive(false);
+      FindPlanet(Crystal.Red).tutorialPointer.SetActive(false);
+      FindPlanet(Crystal.Green).tutorialPointer.SetActive(false);
+      tutorialStep = 0;
+
       gameController.OnMissionCompleted();
     }
   }

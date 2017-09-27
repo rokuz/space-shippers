@@ -108,10 +108,10 @@ public class CrystalFactory : MonoBehaviour
               currentTask.amount -= newAmount;
               stock.AddToStock(currentTask.crystalType, newAmount);
               if (OnAmountChanged != null)
-                  OnAmountChanged(crystalType, amount);
+                OnAmountChanged(crystalType, amount);
           }
 
-          if (currentTask.amount == 0)
+          if (currentTask == null || currentTask.amount == 0)
           {
               currentTask = null;
               producingAmount = 0.0f;

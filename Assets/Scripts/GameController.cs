@@ -251,6 +251,10 @@ public class GameController : MonoBehaviour
         {
           gameFinished = true;
           missionController.missionFailed = true;
+
+          crystalStock = new CrystalStock();
+          crystalStock.OnStockAmountChanged = OnStockAmountChanged;
+          sceneController.RestartScene();
         }
         if (!missionCompletionPanel.activeSelf && !needShowMissionCompletionPanel)
         {
@@ -272,6 +276,7 @@ public class GameController : MonoBehaviour
   {
     gameStarted = false;
     gameFinished = false;
+    missionCompleted = false;
     missionController.RestartMission();
     InitGameplay();
   }
@@ -280,6 +285,7 @@ public class GameController : MonoBehaviour
   {
     gameStarted = false;
     gameFinished = false;
+    missionCompleted = false;
     missionController.SetupNextMission();
     InitGameplay();
   }
@@ -548,6 +554,10 @@ public class GameController : MonoBehaviour
       gameFinished = true;
       missionController.missionFailed = false;
       missionController.UpdateMissionCompletionPanel();
+
+      crystalStock = new CrystalStock();
+      crystalStock.OnStockAmountChanged = OnStockAmountChanged;
+      sceneController.RestartScene();
     }
   }
 
