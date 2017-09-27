@@ -80,6 +80,8 @@ public class GameController : MonoBehaviour
   private bool missionCompleted = false;
   private bool missionCompletionPanelMoveUp = true;
   private float missionCompletionPanelDownPos = -808;
+  public AudioClip missionCompletedAudio;
+  public AudioClip missionFailedAudio;
 
   private CrystalStock crystalStock = null;
 
@@ -259,6 +261,11 @@ public class GameController : MonoBehaviour
         {
           gameFinished = true;
           missionController.missionFailed = true;
+
+          var audio = GetComponent<AudioSource>();
+          audio.volume = 0.25f;
+          audio.clip = missionFailedAudio;
+          audio.Play();
 
           crystalStock = new CrystalStock();
           crystalStock.OnStockAmountChanged = OnStockAmountChanged;
@@ -553,6 +560,11 @@ public class GameController : MonoBehaviour
       { "mission", missionController.CurrentMission },
       { "timeInSeconds", (int)(Time.time - playTimestamp) }
     });
+
+    var audio = GetComponent<AudioSource>();
+    audio.volume = 0.25f;
+    audio.clip = missionCompletedAudio;
+    audio.Play();
 
     if (menuPanel.activeSelf && !needHideMenuPanel)
     {

@@ -121,7 +121,13 @@ public class SceneController : MonoBehaviour
     spaceship.sun = sun;
     spaceship.explosion = explosionPrefab;
     spaceship.speed = missionController.GetSpaceshipSpeed();
+    spaceship.OnApplyCargo += OnApplyCargo;
     MeshRenderer renderer = obj.GetComponentInChildren<MeshRenderer>();
     renderer.material = fromPlanet.shipMaterial;
+  }
+
+  public void OnApplyCargo()
+  {
+    GetComponent<AudioSource>().Play();
   }
 }

@@ -185,7 +185,7 @@ public class MissionController : MonoBehaviour
     {
       toggles[currentToggle].gameObject.SetActive(true);
       toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[currentMissionIndex].cianCrystalsCount;
-      toggles[currentToggle].isOn = (currentCianCrystalsCount == missions[currentMissionIndex].cianCrystalsCount);
+      toggles[currentToggle].isOn = (currentCianCrystalsCount >= missions[currentMissionIndex].cianCrystalsCount);
       FindCrystalImage(toggles[currentToggle].gameObject).sprite = cianCrystal;
       currentToggle++;
     }
@@ -193,7 +193,7 @@ public class MissionController : MonoBehaviour
     {
       toggles[currentToggle].gameObject.SetActive(true);
       toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[currentMissionIndex].yellowCrystalsCount;
-      toggles[currentToggle].isOn = (currentYellowCrystalsCount == missions[currentMissionIndex].yellowCrystalsCount);
+      toggles[currentToggle].isOn = (currentYellowCrystalsCount >= missions[currentMissionIndex].yellowCrystalsCount);
       FindCrystalImage(toggles[currentToggle].gameObject).sprite = yellowCrystal;
       currentToggle++;
     }
@@ -201,7 +201,7 @@ public class MissionController : MonoBehaviour
     {
       toggles[currentToggle].gameObject.SetActive(true);
       toggles[currentToggle].GetComponentInChildren<Text>().text = lang.GetTextValue("MissionGoal") + " " + missions[currentMissionIndex].purpleCrystalsCount;
-      toggles[currentToggle].isOn = (currentPurpleCrystalsCount == missions[currentMissionIndex].purpleCrystalsCount);
+      toggles[currentToggle].isOn = (currentPurpleCrystalsCount >= missions[currentMissionIndex].purpleCrystalsCount);
       FindCrystalImage(toggles[currentToggle].gameObject).sprite = purpleCrystal;
       currentToggle++;
     }
