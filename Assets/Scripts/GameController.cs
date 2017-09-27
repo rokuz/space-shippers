@@ -159,7 +159,7 @@ public class GameController : MonoBehaviour
       bannerView.LoadAd(request);
 
       var p = gameTimerPanel.localPosition;
-      gameTimerPanel.localPosition = new Vector3(p.x, 320.0f, p.z);
+      gameTimerPanel.localPosition = new Vector3(320.0f, p.y, p.z);
     }
   }
 
@@ -176,7 +176,7 @@ public class GameController : MonoBehaviour
     {
       bannerView.Destroy();
       var p = gameTimerPanel.localPosition;
-      gameTimerPanel.localPosition = new Vector3(p.x, 0.0f, p.z);
+      gameTimerPanel.localPosition = new Vector3(0.0f, p.y, p.z);
     }
   }
 
