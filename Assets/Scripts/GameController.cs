@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
   public MissionController missionController;
   public Text startTimer;
   public Text gameTimer;
+  public RectTransform gameTimerPanel;
   public float startTimerDuration = 3.0f;
 
   public SceneController sceneController;
@@ -154,23 +155,12 @@ public class GameController : MonoBehaviour
     {
       bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
       AdRequest request = new AdRequest.Builder().Build();
-
-      this.bannerView.OnAdLoaded += this.HandleAdLoaded;
-      this.bannerView.OnAdFailedToLoad += this.HandleAdFailedToLoad;
       this.bannerView.OnAdLeavingApplication += this.HandleAdLeftApplication;
-
       bannerView.LoadAd(request);
+
+      var p = gameTimerPanel.localPosition;
+      gameTimerPanel.localPosition = new Vector3(p.x, 320.0f, p.z);
     }
-  }
-
-  public void HandleAdLoaded(object sender, EventArgs args)
-  {
-
-  }
-
-  public void HandleAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
-  {
-
   }
 
   public void HandleAdLeftApplication(object sender, EventArgs args)
@@ -183,7 +173,11 @@ public class GameController : MonoBehaviour
   public void DestroyBanner()
   {
     if (bannerView != null)
+    {
       bannerView.Destroy();
+      var p = gameTimerPanel.localPosition;
+      gameTimerPanel.localPosition = new Vector3(p.x, 0.0f, p.z);
+    }
   }
 
   public void ClearGameTickSubscribers()
