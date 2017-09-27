@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Analytics;
 using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
@@ -141,6 +142,11 @@ public class MissionController : MonoBehaviour
     get { return levelDuration; }
   }
 
+  public int CurrentMission
+  {
+    get { return currentMissionIndex + 1; }
+  }
+
 	void Start()
   {
     ingameYellowGoalText = FindInGameGoalText(ingameYellowGoal);
@@ -153,7 +159,11 @@ public class MissionController : MonoBehaviour
     startMissionButton.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("MissionStartButton");
 
     UpdateMissionCompletionPanel();
-    InitMission(Persistence.gameConfig.currentLevel);
+
+    currentMissionIndex = Persistence.gameConfig.currentLevel;
+    if (currentMissionIndex >= missions.Length)
+      currentMissionIndex = missions.Length - 1;
+    InitMission(currentMissionIndex);
 	}
 
   public void UpdateMissionCompletionPanel()
@@ -271,6 +281,8 @@ public class MissionController : MonoBehaviour
       tutorialText.gameObject.SetActive(true);
       tutorialText.text = lang.GetTextValue("Tutorial_1");
       tutorialStep++;
+
+      Analytics.CustomEvent("Tutorial_1");
     }
     else
     {
@@ -283,8 +295,13 @@ public class MissionController : MonoBehaviour
 
   public void SetupNextMission()
   {
-    int nextMission = currentMissionIndex + 1;
-    InitMission(nextMission);
+    currentMissionIndex++;
+    if (currentMissionIndex >= missions.Length)
+      currentMissionIndex = missions.Length - 1;
+    
+    InitMission(currentMissionIndex);
+    Persistence.gameConfig.currentLevel = currentMissionIndex;
+    Persistence.Save();
   }
 
   public void RestartMission()
@@ -306,6 +323,8 @@ public class MissionController : MonoBehaviour
       tutorialText.text = LanguageManager.Instance.GetTextValue("Tutorial_2");
       FindPlanet(Crystal.Red).tutorialPointer.SetActive(true);
       tutorialStep++;
+
+      Analytics.CustomEvent("Tutorial_2");
     }
 
     if (currentYellowCrystalsCount >= missions[currentMissionIndex].yellowCrystalsCount &&
@@ -347,6 +366,8 @@ public class MissionController : MonoBehaviour
         FindPlanet(Crystal.Red).tutorialPointer.SetActive(false);
         FindPlanet(Crystal.Green).tutorialPointer.SetActive(true);
         tutorialStep++;
+
+        Analytics.CustomEvent("Tutorial_3");
       }
     }
     else if (currentMissionIndex == 0 && tutorialStep == 3)
@@ -354,6 +375,8 @@ public class MissionController : MonoBehaviour
       tutorialText.gameObject.SetActive(false);
       FindPlanet(Crystal.Green).tutorialPointer.SetActive(false);
       tutorialStep = 0;
+
+      Analytics.CustomEvent("Tutorial_Finished");
     }
   }
 

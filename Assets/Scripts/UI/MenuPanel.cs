@@ -58,7 +58,11 @@ public class MenuPanel : MonoBehaviour
   {
     UpdateDonateButton();
     if (success)
+    {
       gameController.DestroyBanner();
+      Persistence.gameConfig.donated = true;
+      Persistence.Save();
+    }
   }
 
   public void OnRestartClicked()

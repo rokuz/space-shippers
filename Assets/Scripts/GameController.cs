@@ -1,7 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Analytics;
 using System.Collections;
+using System.Collections.Generic;
 using SmartLocalization;
 using GoogleMobileAds;
 using GoogleMobileAds.Api;
@@ -76,6 +78,8 @@ public class GameController : MonoBehaviour
   private float missionCompletionPanelShowHideTime;
   private RectTransform missionCompletionPanelRectTransform;
   private bool missionCompleted = false;
+  private bool missionCompletionPanelMoveUp = true;
+  private float missionCompletionPanelDownPos = -808;
 
   private CrystalStock crystalStock = null;
 
@@ -143,14 +147,18 @@ public class GameController : MonoBehaviour
     #endif
 
     MobileAds.Initialize(appId);
-    bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
-    AdRequest request = new AdRequest.Builder().Build();
 
-    this.bannerView.OnAdLoaded += this.HandleAdLoaded;
-    this.bannerView.OnAdFailedToLoad += this.HandleAdFailedToLoad;
-    this.bannerView.OnAdLeavingApplication += this.HandleAdLeftApplication;
+    if (!Persistence.gameConfig.donated)
+    {
+      bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
+      AdRequest request = new AdRequest.Builder().Build();
 
-    bannerView.LoadAd(request);
+      this.bannerView.OnAdLoaded += this.HandleAdLoaded;
+      this.bannerView.OnAdFailedToLoad += this.HandleAdFailedToLoad;
+      this.bannerView.OnAdLeavingApplication += this.HandleAdLeftApplication;
+
+      bannerView.LoadAd(request);
+    }
   }
 
   public void HandleAdLoaded(object sender, EventArgs args)
@@ -255,6 +263,11 @@ public class GameController : MonoBehaviour
           crystalStock = new CrystalStock();
           crystalStock.OnStockAmountChanged = OnStockAmountChanged;
           sceneController.RestartScene();
+
+          Analytics.CustomEvent("MissionFailed", new Dictionary<string, object>
+          {
+            { "mission", missionController.CurrentMission },
+          });
         }
         if (!missionCompletionPanel.activeSelf && !needShowMissionCompletionPanel)
         {
@@ -278,15 +291,6 @@ public class GameController : MonoBehaviour
     gameFinished = false;
     missionCompleted = false;
     missionController.RestartMission();
-    InitGameplay();
-  }
-
-  public void NextMission()
-  {
-    gameStarted = false;
-    gameFinished = false;
-    missionCompleted = false;
-    missionController.SetupNextMission();
     InitGameplay();
   }
 
@@ -346,12 +350,16 @@ public class GameController : MonoBehaviour
     }
     else if (needHideMissionCompletionPanel)
     {
-      var y = Mathf.Lerp(0.0f, missionCompletionPanelInitialPositionY, Mathf.Clamp((Time.time - missionCompletionPanelShowHideTime) / 0.3f, 0.0f, 1.0f));
+      var up = missionCompletionPanelMoveUp ? missionCompletionPanelInitialPositionY : missionCompletionPanelDownPos;
+      var y = Mathf.Lerp(0.0f, up, Mathf.Clamp((Time.time - missionCompletionPanelShowHideTime) / 0.3f, 0.0f, 1.0f));
       missionCompletionPanelRectTransform.localPosition = new Vector3(missionCompletionPanelRectTransform.localPosition.x, y,
                                                                       missionCompletionPanelRectTransform.localPosition.z);
 
-      if (y == missionCompletionPanelInitialPositionY)
+      if (y == missionCompletionPanelInitialPositionY || y == missionCompletionPanelDownPos)
       {
+        missionCompletionPanelRectTransform.localPosition = new Vector3(missionCompletionPanelRectTransform.localPosition.x,
+                                                                        missionCompletionPanelInitialPositionY,
+                                                                        missionCompletionPanelRectTransform.localPosition.z);
         missionCompletionPanel.SetActive(false);
         needHideMissionCompletionPanel = false;
       }
@@ -461,42 +469,42 @@ public class GameController : MonoBehaviour
 
   private Text FindCrystalsText(Crystal crystal)
   {
-      switch (crystal)
-      {
-          case Crystal.Red:
-              return redCrystals;
-          case Crystal.Green:
-              return greenCrystals;
-          case Crystal.Blue:
-              return blueCrystals;
-          case Crystal.Yellow:
-              return yellowCrystals;
-          case Crystal.Purple:
-              return purpleCrystals;
-          case Crystal.Cian:
-              return cianCrystals;
-      }
-      return null;
+    switch (crystal)
+    {
+      case Crystal.Red:
+        return redCrystals;
+      case Crystal.Green:
+        return greenCrystals;
+      case Crystal.Blue:
+        return blueCrystals;
+      case Crystal.Yellow:
+        return yellowCrystals;
+      case Crystal.Purple:
+        return purpleCrystals;
+      case Crystal.Cian:
+        return cianCrystals;
+    }
+    return null;
   }
 
   private RectTransform FindCrystalsProgress(Crystal crystal)
   {
-      switch (crystal)
-      {
-          case Crystal.Red:
-              return redCrystalsProgress;
-          case Crystal.Green:
-              return greenCrystalsProgress;
-          case Crystal.Blue:
-              return blueCrystalsProgress;
-          case Crystal.Yellow:
-              return yellowCrystalsProgress;
-          case Crystal.Purple:
-              return purpleCrystalsProgress;
-          case Crystal.Cian:
-              return cianCrystalsProgress;
-      }
-      return null;
+    switch (crystal)
+    {
+      case Crystal.Red:
+        return redCrystalsProgress;
+      case Crystal.Green:
+        return greenCrystalsProgress;
+      case Crystal.Blue:
+        return blueCrystalsProgress;
+      case Crystal.Yellow:
+        return yellowCrystalsProgress;
+      case Crystal.Purple:
+        return purpleCrystalsProgress;
+      case Crystal.Cian:
+        return cianCrystalsProgress;
+    }
+    return null;
   }
 
   private GameObject FindWaitingTank(Crystal crystal)
@@ -504,17 +512,17 @@ public class GameController : MonoBehaviour
     switch (crystal)
     {
       case Crystal.Red:
-          return redCrystalsWaitingTank;
+        return redCrystalsWaitingTank;
       case Crystal.Green:
-          return greenCrystalsWaitingTank;
+        return greenCrystalsWaitingTank;
       case Crystal.Blue:
-          return blueCrystalsWaitingTank;
+        return blueCrystalsWaitingTank;
       case Crystal.Yellow:
-          return yellowCrystalsWaitingTank;
+        return yellowCrystalsWaitingTank;
       case Crystal.Purple:
-          return purpleCrystalsWaitingTank;
+        return purpleCrystalsWaitingTank;
       case Crystal.Cian:
-          return cianCrystalsWaitingTank;
+        return cianCrystalsWaitingTank;
     }
     return null;
   }
@@ -525,6 +533,11 @@ public class GameController : MonoBehaviour
     needShowMissionPanel = false;
     missionStarted = true;
     missionPanelShowHideTime = Time.time;
+
+    gameStarted = false;
+    gameFinished = false;
+    missionCompleted = false;
+    missionController.RestartMission();
     InitGameplay();
   }
 
@@ -534,6 +547,12 @@ public class GameController : MonoBehaviour
       return;
 
     missionCompleted = true;
+
+    Analytics.CustomEvent("MissionCompleted", new Dictionary<string, object>
+    {
+      { "mission", missionController.CurrentMission },
+      { "timeInSeconds", (int)(Time.time - playTimestamp) }
+    });
 
     if (menuPanel.activeSelf && !needHideMenuPanel)
     {
@@ -574,6 +593,7 @@ public class GameController : MonoBehaviour
       else if (missionCompletionPanel.activeSelf && (missionCompleted || missionController.missionFailed) &&
                !needHideMissionCompletionPanel)
       {
+        missionCompletionPanelMoveUp = true;
         needShowMissionCompletionPanel = false;
         needHideMissionCompletionPanel = true;
         missionCompletionPanelShowHideTime = Time.time;
@@ -605,12 +625,25 @@ public class GameController : MonoBehaviour
   public void OnNextMission()
   {
     if (missionController.missionFailed)
+    {
       RestartMission();
+    }
     else
-      NextMission();
+    {
+      missionController.SetupNextMission();
+      missionCompleted = false;
+      missionStarted = false;
+      if (!missionPanel.activeSelf)
+      {
+        needHideMissionPanel = false;
+        needShowMissionPanel = true;
+        missionPanelShowHideTime = Time.time;
+      }
+    }
 
     if (missionCompletionPanel.activeSelf && !needHideMissionCompletionPanel)
     {
+      missionCompletionPanelMoveUp = false;
       needShowMissionCompletionPanel = false;
       needHideMissionCompletionPanel = true;
       missionCompletionPanelShowHideTime = Time.time;
