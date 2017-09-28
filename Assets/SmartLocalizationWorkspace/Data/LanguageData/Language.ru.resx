@@ -159,9 +159,9 @@
 		<value>Дождитесь окончания производства красного и зеленого минералов</value>
 	</data>
 	<data name="Tutorial_2" xml:space="preserve">
-		<value>Для оправки корабля коснитесь красной планеты</value>
+		<value>Коснитесь красной планеты</value>
 	</data>
 	<data name="Tutorial_3" xml:space="preserve">
-		<value>А теперь потяните пальц к зеленой планете</value>
+		<value>Для отправки корабля потяните палец к зеленой планете</value>
 	</data>
 </root>

@@ -257,7 +257,7 @@ public class GameController : MonoBehaviour
           missionController.missionFailed = true;
 
           var audio = GetComponent<AudioSource>();
-          audio.volume = 0.25f;
+          audio.volume = 0.5f;
           audio.clip = missionFailedAudio;
           audio.Play();
 
@@ -556,7 +556,7 @@ public class GameController : MonoBehaviour
     });
 
     var audio = GetComponent<AudioSource>();
-    audio.volume = 0.25f;
+    audio.volume = 0.5f;
     audio.clip = missionCompletedAudio;
     audio.Play();
 
