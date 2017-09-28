@@ -143,6 +143,12 @@
 	<data name="MissionNameTitle" xml:space="preserve">
 		<value />
 	</data>
+	<data name="MissionNext" xml:space="preserve">
+		<value />
+	</data>
+	<data name="MissionRetry" xml:space="preserve">
+		<value />
+	</data>
 	<data name="MissionStartButton" xml:space="preserve">
 		<value />
 	</data>
@@ -158,10 +164,13 @@
 	<data name="Tutorial_3" xml:space="preserve">
 		<value />
 	</data>
-	<data name="MissionNext" xml:space="preserve">
+	<data name="Help_1" xml:space="preserve">
 		<value />
 	</data>
-	<data name="MissionRetry" xml:space="preserve">
+	<data name="Help_2" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Help_Formulas" xml:space="preserve">
 		<value />
 	</data>
 </root>

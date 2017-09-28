@@ -84,6 +84,12 @@ public class GameController : MonoBehaviour
   public AudioClip missionCompletedAudio;
   public AudioClip missionFailedAudio;
 
+  public GameObject helpPanel;
+  public Button openHelpButton;
+  public Text helpText1;
+  public Text helpText2;
+  public Text helpTextFormulas;
+
   private CrystalStock crystalStock = null;
 
   public CrystalStock Stock
@@ -132,6 +138,10 @@ public class GameController : MonoBehaviour
     missionCompletionPanel.SetActive(false);
     missionCompletionPanelRectTransform = missionCompletionPanel.GetComponent<RectTransform>();
     missionCompletionPanelInitialPositionY = missionCompletionPanelRectTransform.localPosition.y;
+
+    helpText1.text = LanguageManager.Instance.GetTextValue("Help_1");
+    helpText2.text = LanguageManager.Instance.GetTextValue("Help_2");
+    helpTextFormulas.text = LanguageManager.Instance.GetTextValue("Help_Formulas");
 
     RequestBanner();
 	}
@@ -226,6 +236,9 @@ public class GameController : MonoBehaviour
     
     if (!gameStarted)
     {
+      if (!openHelpButton.gameObject.activeSelf)
+        openHelpButton.gameObject.SetActive(true);
+
       float delta = Time.time - runTimestamp;
       if (delta <= startTimerDuration)
       {
@@ -250,6 +263,12 @@ public class GameController : MonoBehaviour
       }
       else
       {
+        if (openHelpButton.gameObject.activeSelf)
+        {
+          openHelpButton.gameObject.SetActive(false);
+          helpPanel.gameObject.SetActive(false);
+        }
+
         gameTimer.text = "00:00";
         if (!gameFinished)
         {
@@ -549,6 +568,12 @@ public class GameController : MonoBehaviour
 
     missionCompleted = true;
 
+    if (openHelpButton.gameObject.activeSelf)
+    {
+      openHelpButton.gameObject.SetActive(false);
+      helpPanel.gameObject.SetActive(false);
+    }
+
     Analytics.CustomEvent("MissionCompleted", new Dictionary<string, object>
     {
       { "mission", missionController.CurrentMission },
@@ -654,5 +679,26 @@ public class GameController : MonoBehaviour
       needHideMissionCompletionPanel = true;
       missionCompletionPanelShowHideTime = Time.time;
     }
+  }
+
+  public void OnOpenHelp()
+  {
+    if (helpPanel.activeSelf)
+    {
+      helpPanel.gameObject.SetActive(false);
+    }
+    else
+    {
+      helpPanel.gameObject.SetActive(true);
+      Analytics.CustomEvent("HelpOpened", new Dictionary<string, object>
+      {
+        { "mission", missionController.CurrentMission }
+      });
+    }
+  }
+
+  public void OnCloseHelp()
+  {
+    this.openHelpButton.onClick.Invoke();
   }
 }

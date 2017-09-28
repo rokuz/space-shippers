@@ -58,6 +58,8 @@ public class SceneController : MonoBehaviour
       if (Input.GetMouseButtonDown(0))
       {
         this.selectedPlanet = SelectPlanet();
+        if (this.selectedPlanet != null)
+          this.selectedPlanet.SetSelected(true);
         missionController.OnSelectPlanet(this.selectedPlanet);
       }
 
@@ -67,6 +69,7 @@ public class SceneController : MonoBehaviour
         if (planet != null && planet != this.selectedPlanet)
         {
           SendSpaceship(this.selectedPlanet, planet);
+          this.selectedPlanet.SetSelected(false);
           this.selectedPlanet = null;
           missionController.OnSelectPlanet(this.selectedPlanet);
         }
@@ -74,12 +77,16 @@ public class SceneController : MonoBehaviour
 
       if (Input.GetMouseButtonUp(0))
       {
+        if (this.selectedPlanet != null)
+          this.selectedPlanet.SetSelected(false);
         this.selectedPlanet = null;
         missionController.OnSelectPlanet(this.selectedPlanet);
       }
     }
     else
     {
+      if (this.selectedPlanet != null)
+          this.selectedPlanet.SetSelected(false);
       this.selectedPlanet = null;
       missionController.OnSelectPlanet(this.selectedPlanet);
     }

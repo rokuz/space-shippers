@@ -164,4 +164,13 @@
 	<data name="Tutorial_3" xml:space="preserve">
 		<value>Para enviar la nave espacial arrastrar dedo al planeta verde</value>
 	</data>
+	<data name="Help_1" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Help_2" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Help_Formulas" xml:space="preserve">
+		<value />
+	</data>
 </root>

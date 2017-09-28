@@ -164,4 +164,13 @@
 	<data name="Tutorial_3" xml:space="preserve">
 		<value>将手指拖到绿色星球上并发送宇宙飞船</value>
 	</data>
+	<data name="Help_1" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Help_2" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Help_Formulas" xml:space="preserve">
+		<value />
+	</data>
 </root>

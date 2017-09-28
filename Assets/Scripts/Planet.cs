@@ -43,6 +43,11 @@ public class Planet : MonoBehaviour
     get { return orbit; }
   }
 
+  public void SetSelected(bool isSelected)
+  {
+    this.transform.Find("Selection").gameObject.SetActive(isSelected);
+  }
+
   public void ApplyInitialTransform()
   {
     if (orbit != null)

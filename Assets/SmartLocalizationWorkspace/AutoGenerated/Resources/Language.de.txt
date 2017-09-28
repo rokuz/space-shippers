@@ -164,4 +164,13 @@
 	<data name="Tutorial_3" xml:space="preserve">
 		<value>Ziehen den Finger auf den grünen Planet zu schicken den Raumschiff</value>
 	</data>
+	<data name="Help_1" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Help_2" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Help_Formulas" xml:space="preserve">
+		<value />
+	</data>
 </root>
