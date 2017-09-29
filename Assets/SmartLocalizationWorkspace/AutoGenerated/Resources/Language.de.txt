@@ -116,6 +116,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Help_1" xml:space="preserve">
+		<value>1) Warten auf die Mineralienproduktion</value>
+	</data>
+	<data name="Help_2" xml:space="preserve">
+		<value>2) Tippen und ziehen zu schicken den Raumschiff</value>
+	</data>
+	<data name="Help_Formulas" xml:space="preserve">
+		<value>Formeln</value>
+	</data>
 	<data name="Menu_Donate" xml:space="preserve">
 		<value>Werbung Entfernen</value>
 	</data>
@@ -156,21 +165,12 @@
 		<value>Gehen!</value>
 	</data>
 	<data name="Tutorial_1" xml:space="preserve">
-		<value>Warten auf die Herstellung eines roten Mineral und eines grünen Mineral</value>
+		<value>Warten auf die Produktion eines roten Mineral und eines grünen Mineral</value>
 	</data>
 	<data name="Tutorial_2" xml:space="preserve">
 		<value>Tippen zum roten Planet</value>
 	</data>
 	<data name="Tutorial_3" xml:space="preserve">
 		<value>Ziehen den Finger auf den grünen Planet zu schicken den Raumschiff</value>
-	</data>
-	<data name="Help_1" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Help_2" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Help_Formulas" xml:space="preserve">
-		<value />
 	</data>
 </root>

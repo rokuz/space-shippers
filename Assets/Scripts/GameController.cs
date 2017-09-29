@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Analytics;
+using UnityEngine.Advertisements;
 using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
@@ -151,15 +152,24 @@ public class GameController : MonoBehaviour
     #if UNITY_ANDROID
       string adUnitId = "ca-app-pub-8904882368983998/3748761996";
       string appId = "ca-app-pub-8904882368983998~4680190977";
+      string gameId = "1557938";
     #elif UNITY_IPHONE
-      string adUnitId = "";
-      string appId = "";
+      string adUnitId = "ca-app-pub-8904882368983998/9863023444";
+      string appId = "ca-app-pub-8904882368983998~8304198062";
+      string gameId = "1557937";
     #else
       string adUnitId = "unexpected_platform";
       string appId = "unexpected_platform";
+      string gameId = "unexpected_platform";
     #endif
 
     MobileAds.Initialize(appId);
+
+    if (Advertisement.isSupported)
+      Advertisement.Initialize(gameId, false);
+
+    //Persistence.gameConfig.donated = true;
+    //Persistence.Save();
 
     if (!Persistence.gameConfig.donated)
     {
@@ -559,6 +569,12 @@ public class GameController : MonoBehaviour
     missionCompleted = false;
     missionController.RestartMission();
     InitGameplay();
+
+    if (missionController.CurrentMission == 1)
+    {
+      OnMenuClicked();
+      helpPanel.gameObject.SetActive(true);
+    }
   }
 
   public void OnMissionCompleted()
@@ -669,6 +685,12 @@ public class GameController : MonoBehaviour
         needHideMissionPanel = false;
         needShowMissionPanel = true;
         missionPanelShowHideTime = Time.time;
+      }
+
+      if (!Persistence.gameConfig.donated)
+      {
+        ShowOptions options = new ShowOptions();
+        Advertisement.Show("video", options);
       }
     }
 

@@ -126,7 +126,7 @@
 		<value>Formulas</value>
 	</data>
 	<data name="Menu_Donate" xml:space="preserve">
-		<value>Donate &amp; Remove Ads</value>
+		<value>Remove Ads</value>
 	</data>
 	<data name="Menu_Restart" xml:space="preserve">
 		<value>Restart</value>

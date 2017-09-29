@@ -116,8 +116,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Help_1" xml:space="preserve">
+		<value>1）等待矿产生产</value>
+	</data>
+	<data name="Help_2" xml:space="preserve">
+		<value>2）点击并拖动发送太空飞船</value>
+	</data>
+	<data name="Help_Formulas" xml:space="preserve">
+		<value>公式</value>
+	</data>
 	<data name="Menu_Donate" xml:space="preserve">
-		<value>捐赠和删除广告</value>
+		<value>删除广告</value>
 	</data>
 	<data name="Menu_Restart" xml:space="preserve">
 		<value>重新开始</value>
@@ -163,14 +172,5 @@
 	</data>
 	<data name="Tutorial_3" xml:space="preserve">
 		<value>将手指拖到绿色星球上并发送宇宙飞船</value>
-	</data>
-	<data name="Help_1" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Help_2" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Help_Formulas" xml:space="preserve">
-		<value />
 	</data>
 </root>

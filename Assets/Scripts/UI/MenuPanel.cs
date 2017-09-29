@@ -28,7 +28,7 @@ public class MenuPanel : MonoBehaviour
   private void UpdateDonateButton()
   {
     var lang = LanguageManager.Instance;
-    if (purchaser.IsDonated)
+    if (Persistence.gameConfig.donated)
     {
       donateButton.GetComponentInChildren<Text>().text = lang.GetTextValue("Menu_Thanks");
       donateButton.enabled = false;
@@ -56,13 +56,13 @@ public class MenuPanel : MonoBehaviour
 
   public void OnDonateCompleted(bool success)
   {
-    UpdateDonateButton();
     if (success)
     {
       gameController.DestroyBanner();
       Persistence.gameConfig.donated = true;
       Persistence.Save();
     }
+    UpdateDonateButton();
   }
 
   public void OnRestartClicked()
