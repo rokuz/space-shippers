@@ -96,7 +96,7 @@ public class SceneController : MonoBehaviour
   {
     Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
     RaycastHit hit;
-    if (Physics.SphereCast(ray, 0.5f, out hit))
+    if (Physics.SphereCast(ray, 0.75f, out hit))
     {
       int hitId = hit.collider.gameObject.GetInstanceID();
       return (from p in planets where p.gameObject.GetInstanceID() == hitId select p).SingleOrDefault();
