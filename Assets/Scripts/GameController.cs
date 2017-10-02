@@ -144,6 +144,12 @@ public class GameController : MonoBehaviour
     helpText2.text = LanguageManager.Instance.GetTextValue("Help_2");
     helpTextFormulas.text = LanguageManager.Instance.GetTextValue("Help_Formulas");
 
+    if (Math.Abs(Camera.main.aspect - 4.0f / 3.0f) <= 0.1f)
+    {
+      var newPos = Camera.main.transform.position - 7.0f * Camera.main.transform.forward;
+      Camera.main.transform.SetPositionAndRotation(newPos, Camera.main.transform.rotation);
+    }
+
     RequestBanner();
 	}
 
