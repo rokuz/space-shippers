@@ -30,6 +30,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
     if (IsInitialized())
       return;
 
+    print("InitializePurchasing()");
     var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
     builder.AddProduct(kProductIDDonate, ProductType.NonConsumable);
     UnityPurchasing.Initialize(this, builder);
@@ -64,7 +65,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
       storeController.InitiatePurchase(product);
   }
 
-  private void RestorePurchases()
+  public void RestorePurchases()
   {
     if (!IsInitialized())
       return;
@@ -82,14 +83,12 @@ public class Purchaser : MonoBehaviour, IStoreListener
     storeController = controller;
     storeExtensionProvider = extensions;
 
-    RestorePurchases();
-
-    Debug.Log("Purchaser initialized");
+    print("Purchaser initialized");
   }
     
   public void OnInitializeFailed(InitializationFailureReason error)
   {
-    Debug.Log("Purchaser not initialized");
+    print("Purchaser not initialized");
   }
 
   public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) 

@@ -173,4 +173,7 @@
 	<data name="Tutorial_3" xml:space="preserve">
 		<value>将手指拖到绿色星球上并发送宇宙飞船</value>
 	</data>
+	<data name="Tutorial_Pirate" xml:space="preserve">
+		<value>点击并摧毁一个海盗</value>
+	</data>
 </root>

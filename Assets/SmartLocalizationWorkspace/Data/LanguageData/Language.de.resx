@@ -173,4 +173,7 @@
 	<data name="Tutorial_3" xml:space="preserve">
 		<value>Ziehen den Finger auf den grünen Planet zu schicken den Raumschiff</value>
 	</data>
+	<data name="Tutorial_Pirate" xml:space="preserve">
+		<value>Tippen und zerstören einen Pirat</value>
+	</data>
 </root>

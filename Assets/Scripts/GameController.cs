@@ -11,6 +11,7 @@ using GoogleMobileAds.Api;
 
 public class GameController : MonoBehaviour
 {
+  public Purchaser purchaser;
   public MissionController missionController;
   public Text startTimer;
   public Text gameTimer;
@@ -125,6 +126,9 @@ public class GameController : MonoBehaviour
     SmartCultureInfo systemLanguage = LanguageManager.Instance.GetDeviceCultureIfSupported();
     if (systemLanguage != null)
       LanguageManager.Instance.ChangeLanguage(systemLanguage);
+
+    if (!Persistence.gameConfig.donated && Persistence.gameConfig.currentLevel == 0)
+      purchaser.RestorePurchases();
   
     ingameUI.SetActive(false);
 

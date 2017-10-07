@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
+using SmartLocalization;
 
 public class SceneController : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class SceneController : MonoBehaviour
   public Orbit[] orbits;
   public GameObject spaceshipPrefab;
   public GameObject explosionPrefab;
+  public GameObject piratePrefab;
+  public GameObject blastPrefab;
+  public Text tutorialText;
 
   private Planet[] planets;
 
@@ -46,10 +51,14 @@ public class SceneController : MonoBehaviour
     var effects = GameObject.FindGameObjectsWithTag("Effect");
     foreach (var effect in effects)
       GameObject.Destroy(effect);
+
+    var pirates = GameObject.FindGameObjectsWithTag("Pirate");
+    foreach (var pirate in pirates)
+      GameObject.Destroy(pirate);
   }
 
 	void Update()
-	{
+  {
     if (gameContoller.Paused)
       return;
     
@@ -57,15 +66,28 @@ public class SceneController : MonoBehaviour
     {
       if (Input.GetMouseButtonDown(0))
       {
-        this.selectedPlanet = SelectPlanet();
+        var hitId = SelectObject();
+        this.selectedPlanet = SelectPlanet(hitId);
         if (this.selectedPlanet != null)
           this.selectedPlanet.SetSelected(true);
         missionController.OnSelectPlanet(this.selectedPlanet);
+
+        if (this.selectedPlanet == null)
+        {
+          Pirate pirate = SelectPirate(hitId);
+          if (pirate != null)
+          {
+            pirate.Hit();
+            tutorialText.gameObject.SetActive(false);
+            Persistence.gameConfig.pirateOnceDestroyed = true;
+            Persistence.Save();
+          }
+        }
       }
 
       if (this.selectedPlanet != null && Input.GetMouseButton(0))
       {
-        Planet planet = SelectPlanet();
+        Planet planet = SelectPlanet(SelectObject());
         if (planet != null && planet != this.selectedPlanet)
         {
           SendSpaceship(this.selectedPlanet, planet);
@@ -92,16 +114,32 @@ public class SceneController : MonoBehaviour
     }
 	}
 
-  private Planet SelectPlanet()
+  private int? SelectObject()
   {
     Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
     RaycastHit hit;
     if (Physics.SphereCast(ray, 0.75f, out hit))
-    {
-      int hitId = hit.collider.gameObject.GetInstanceID();
-      return (from p in planets where p.gameObject.GetInstanceID() == hitId select p).SingleOrDefault();
-    }
+      return hit.collider.gameObject.GetInstanceID();
     return null;
+  }
+
+  private Planet SelectPlanet(int? hitId)
+  {
+    if (hitId == null)
+      return null;
+    return (from p in planets where p.gameObject.GetInstanceID() == hitId.Value select p).SingleOrDefault();
+  }
+
+  private Pirate SelectPirate(int? hitId)
+  {
+    if (hitId == null)
+      return null;
+
+    var pirates = GameObject.FindGameObjectsWithTag("Pirate");
+    GameObject pirateObj = (from p in pirates where p.gameObject.GetInstanceID() == hitId.Value select p).SingleOrDefault();
+    if (pirateObj == null)
+      return null;
+    return pirateObj.GetComponent<Pirate>();
   }
 
   private void SendSpaceship(Planet fromPlanet, Planet toPlanet)
@@ -131,6 +169,25 @@ public class SceneController : MonoBehaviour
     spaceship.OnApplyCargo += OnApplyCargo;
     MeshRenderer renderer = obj.GetComponentInChildren<MeshRenderer>();
     renderer.material = fromPlanet.shipMaterial;
+
+    if (missionController.CurrentMission > 1 && Random.Range(0.0f, 1.0f) <= 0.6f)
+      UnleashPirate(spaceship);
+  }
+
+  private void UnleashPirate(Spaceship spaceship)
+  {
+    GameObject obj = Instantiate(piratePrefab) as GameObject;
+    Pirate pirate = obj.GetComponent<Pirate>();
+    pirate.gameController = gameContoller;
+    pirate.chasedSpaceship = spaceship;
+    pirate.blastPrefab = blastPrefab;
+    pirate.explosionPrefab = explosionPrefab;
+
+    if (!Persistence.gameConfig.pirateOnceDestroyed)
+    {
+      tutorialText.gameObject.SetActive(true);
+      tutorialText.text = LanguageManager.Instance.GetTextValue("Tutorial_Pirate");
+    }
   }
 
   public void OnApplyCargo()

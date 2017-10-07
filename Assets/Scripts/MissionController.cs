@@ -69,65 +69,65 @@ public class MissionController : MonoBehaviour
   private MissionDetails[] missions = new MissionDetails[]
   {
     new MissionDetails(1 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 5, 4, 3 } /*planets speed*/, 3 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
 
     // 2
-    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
 
     // 3
-    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
 
     // 4
-    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 4 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(4 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 4 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(3 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 3 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 3 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(3 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 4 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(4 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 4 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 3 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 3 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
 
     // 5
-    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 4 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 4 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 4 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 5 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 3 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(4 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(3 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(3 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 4 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(5 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(4 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 3 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(0 /*yellow*/, 5 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(1 /*yellow*/, 3 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(3 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
-    new MissionDetails(2 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 10 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 1 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 1 /*cian*/, 4 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 0 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 4 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 2 /*cian*/, 3 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 4 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 2 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 0 /*cian*/, 5 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 3 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(4 /*yellow*/, 0 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 1 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 1 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 2 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 0 /*cian*/, 4 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(5 /*yellow*/, 0 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(4 /*yellow*/, 1 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 3 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(0 /*yellow*/, 5 /*cian*/, 0 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(1 /*yellow*/, 3 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(3 /*yellow*/, 0 /*cian*/, 2 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
+    new MissionDetails(2 /*yellow*/, 2 /*cian*/, 1 /*purple*/, new float[]{ 25, 15, 10 } /*planets speed*/, 7 /*ship speed*/),
   };
 
   private int currentMissionIndex = 0;
@@ -312,11 +312,11 @@ public class MissionController : MonoBehaviour
   public void ApplyCrystals(Crystal type, uint amount)
   {
     if (type == Crystal.Yellow)
-      currentYellowCrystalsCount += amount;
+      currentYellowCrystalsCount = amount;
     else if (type == Crystal.Cian)
-      currentCianCrystalsCount += amount;
+      currentCianCrystalsCount = amount;
     else if (type == Crystal.Purple)
-      currentPurpleCrystalsCount += amount;
+      currentPurpleCrystalsCount = amount;
 
     if (currentMissionIndex == 0 && tutorialStep == 1 && type == Crystal.Red && amount > 0)
     {

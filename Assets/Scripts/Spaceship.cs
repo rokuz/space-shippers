@@ -82,5 +82,9 @@ public class Spaceship : MonoBehaviour
     {
       Explode();
     }
+    else if (other.gameObject.GetComponent<Blast>() != null)
+    {
+      Explode();
+    }
   }
 }
