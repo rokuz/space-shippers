@@ -176,4 +176,10 @@
 	<data name="Tutorial_Pirate" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Invite_RemoveAds" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Invite" xml:space="preserve">
+		<value />
+	</data>
 </root>

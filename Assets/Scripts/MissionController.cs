@@ -27,6 +27,7 @@ public class MissionController : MonoBehaviour
   public Toggle congratulationsGoalToggle2;
   public Toggle congratulationsGoalToggle3;
   public Button nextMissionButton;
+  public Button inviteButton;
   [HideInInspector]
   public bool missionFailed = false;
 
@@ -208,6 +209,7 @@ public class MissionController : MonoBehaviour
     for (int i = currentToggle; i < toggles.Length; i++)
       toggles[i].gameObject.SetActive(false);
 
+    inviteButton.GetComponentInChildren<Text>().text = lang.GetTextValue(Persistence.gameConfig.donated ? "Invite" : "Invite_RemoveAds");
     nextMissionButton.GetComponentInChildren<Text>().text = lang.GetTextValue(missionFailed ? "MissionRetry" : "MissionNext");
   }
 

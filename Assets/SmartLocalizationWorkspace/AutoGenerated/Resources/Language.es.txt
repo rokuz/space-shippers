@@ -125,6 +125,12 @@
 	<data name="Help_Formulas" xml:space="preserve">
 		<value>Fórmulas</value>
 	</data>
+	<data name="Invite" xml:space="preserve">
+		<value>Invitar a amigos</value>
+	</data>
+	<data name="Invite_RemoveAds" xml:space="preserve">
+		<value>Invitar y Eliminar anuncios</value>
+	</data>
 	<data name="Menu_Donate" xml:space="preserve">
 		<value>Eliminar anuncios</value>
 	</data>
