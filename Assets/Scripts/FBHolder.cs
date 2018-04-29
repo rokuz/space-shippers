@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using Facebook.Unity;
 
 public class FBHolder : MonoBehaviour
@@ -104,13 +105,19 @@ public class FBHolder : MonoBehaviour
   {
     if (result.Error != null && result.Error.Length != 0)
     {
+      Analytics.CustomEvent("InvitationFailed");
       Debug.Log(result.Error);
       Debug.Log("Friends were not invited");
     }
+    else if (result.To.ToCommaSeparateList().Length == 0 || result.Cancelled)
+    {
+      Analytics.CustomEvent("InvitationCancelled");
+      Debug.Log("Request was cancelled");
+    }
     else
     {
+      Analytics.CustomEvent("InvitationCompleted");
       Debug.Log("Friends were invited");
-      menuPanel.OnDonateCompleted(true);
     }
   }
 

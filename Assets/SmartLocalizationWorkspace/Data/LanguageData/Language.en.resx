@@ -116,6 +116,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Button_Details" xml:space="preserve">
+		<value>Details</value>
+	</data>
 	<data name="Help_1" xml:space="preserve">
 		<value>1) Wait for the minerals production </value>
 	</data>
@@ -133,6 +136,9 @@
 	</data>
 	<data name="Menu_Donate" xml:space="preserve">
 		<value>Remove Ads</value>
+	</data>
+	<data name="Menu_OtherGames" xml:space="preserve">
+		<value>Other games</value>
 	</data>
 	<data name="Menu_Restart" xml:space="preserve">
 		<value>Restart</value>
@@ -166,6 +172,16 @@
 	</data>
 	<data name="MissionStartButton" xml:space="preserve">
 		<value>Start</value>
+	</data>
+	<data name="SB_desc" xml:space="preserve">
+		<value>Spellbinder Duels is a turn based role-play card game. The gameplay is based on the memorization of the card pairs. Memory and tactical planning will help you easily defeat the most powerful opponent.
+We are pleased to offer you the following:
+ ⁃ Fight in magic duels;
+ ⁃ Compete for the championship with serious opponents;
+ ⁃ Get experience and improve characteristics;
+ ⁃ Use the spells of 9 magical schools;
+ ⁃ Learn unique spells;
+ ⁃ Play with friends from Facebook.</value>
 	</data>
 	<data name="StartTimerGo" xml:space="preserve">
 		<value>Go!</value>

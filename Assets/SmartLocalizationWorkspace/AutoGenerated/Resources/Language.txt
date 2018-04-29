@@ -116,6 +116,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Button_Details" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Help_1" xml:space="preserve">
 		<value />
 	</data>
@@ -125,7 +128,16 @@
 	<data name="Help_Formulas" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Invite" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Invite_RemoveAds" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Menu_Donate" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Menu_OtherGames" xml:space="preserve">
 		<value />
 	</data>
 	<data name="Menu_Restart" xml:space="preserve">
@@ -176,10 +188,7 @@
 	<data name="Tutorial_Pirate" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Invite_RemoveAds" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Invite" xml:space="preserve">
+	<data name="SB_desc" xml:space="preserve">
 		<value />
 	</data>
 </root>

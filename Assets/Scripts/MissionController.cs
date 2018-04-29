@@ -209,7 +209,7 @@ public class MissionController : MonoBehaviour
     for (int i = currentToggle; i < toggles.Length; i++)
       toggles[i].gameObject.SetActive(false);
 
-    inviteButton.GetComponentInChildren<Text>().text = lang.GetTextValue(Persistence.gameConfig.donated ? "Invite" : "Invite_RemoveAds");
+    inviteButton.GetComponentInChildren<Text>().text = lang.GetTextValue("Invite");
     nextMissionButton.GetComponentInChildren<Text>().text = lang.GetTextValue(missionFailed ? "MissionRetry" : "MissionNext");
   }
 

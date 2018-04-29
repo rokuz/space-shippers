@@ -116,11 +116,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="Button_Details" xml:space="preserve">
+		<value>Nähere</value>
+	</data>
 	<data name="Help_1" xml:space="preserve">
-		<value>1) Warten auf die Mineralienproduktion</value>
+		<value>1) Warten die Mineralienproduktion auf</value>
 	</data>
 	<data name="Help_2" xml:space="preserve">
-		<value>2) Tippen und ziehen zu schicken den Raumschiff</value>
+		<value>2) Tippen und ziehen, um den Raumschiff zu schicken </value>
 	</data>
 	<data name="Help_Formulas" xml:space="preserve">
 		<value>Formeln</value>
@@ -133,6 +136,9 @@
 	</data>
 	<data name="Menu_Donate" xml:space="preserve">
 		<value>Werbung Entfernen</value>
+	</data>
+	<data name="Menu_OtherGames" xml:space="preserve">
+		<value>Andere Videospiele</value>
 	</data>
 	<data name="Menu_Restart" xml:space="preserve">
 		<value>Neustart</value>
@@ -167,17 +173,27 @@
 	<data name="MissionStartButton" xml:space="preserve">
 		<value>Anfangen</value>
 	</data>
+	<data name="SB_desc" xml:space="preserve">
+		<value>Spellbinder Duels ist ein rundenbasiertes Rollenspiel-Kartenspiel. Das Gameplay basiert auf dem Auswendiglernen der Kartenpaare. Gedächtnis und taktische Planung helfen dir, den mächtigsten Gegner zu besiegen.
+Wir freuen uns, Ihnen folgendes zu anbieten:
+  ⁃ Kämpfen in magischen Zweikämpfen;
+  ⁃ Teilnehmen in der Meisterschaft;
+  ⁃ Sammeln Erfahrung und verbessern Eigenschaften;
+  ⁃ Benutzen die Zauber von 9 magischen Schulen;
+  ⁃ Lernen einzigartige Zaubersprüche;
+  ⁃ Spielen mit Freunden von Facebook.</value>
+	</data>
 	<data name="StartTimerGo" xml:space="preserve">
 		<value>Gehen!</value>
 	</data>
 	<data name="Tutorial_1" xml:space="preserve">
-		<value>Warten auf die Produktion eines roten Mineral und eines grünen Mineral</value>
+		<value>Warten die Produktion von eines roten Mineral und eines grünen Mineral auf</value>
 	</data>
 	<data name="Tutorial_2" xml:space="preserve">
 		<value>Tippen zum roten Planet</value>
 	</data>
 	<data name="Tutorial_3" xml:space="preserve">
-		<value>Ziehen den Finger auf den grünen Planet zu schicken den Raumschiff</value>
+		<value>Ziehen den Finger zu dem grünen Planet, um den Raumschiff zu schicken </value>
 	</data>
 	<data name="Tutorial_Pirate" xml:space="preserve">
 		<value>Tippen und zerstören einen Pirat</value>

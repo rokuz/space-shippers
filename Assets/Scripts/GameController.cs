@@ -2,16 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Analytics;
-using UnityEngine.Advertisements;
 using System.Collections;
 using System.Collections.Generic;
 using SmartLocalization;
-using GoogleMobileAds;
-using GoogleMobileAds.Api;
 
 public class GameController : MonoBehaviour
 {
-  public Purchaser purchaser;
   public MissionController missionController;
   public Text startTimer;
   public Text gameTimer;
@@ -92,6 +88,8 @@ public class GameController : MonoBehaviour
   public Text helpText2;
   public Text helpTextFormulas;
 
+  public GameObject otherGamesPanel;
+
   private CrystalStock crystalStock = null;
 
   public CrystalStock Stock
@@ -114,8 +112,6 @@ public class GameController : MonoBehaviour
     get { return gameStarted; }
   }
 
-  private BannerView bannerView;
-
   public void Awake()
   {
     Persistence.Load();
@@ -127,9 +123,6 @@ public class GameController : MonoBehaviour
     if (systemLanguage != null)
       LanguageManager.Instance.ChangeLanguage(systemLanguage);
 
-    if (!Persistence.gameConfig.donated && Persistence.gameConfig.currentLevel == 0)
-      purchaser.RestorePurchases();
-  
     ingameUI.SetActive(false);
 
     menuPanel.SetActive(false);
@@ -153,61 +146,13 @@ public class GameController : MonoBehaviour
       var newPos = Camera.main.transform.position - 7.0f * Camera.main.transform.forward;
       Camera.main.transform.SetPositionAndRotation(newPos, Camera.main.transform.rotation);
     }
-
-    RequestBanner();
 	}
-
-  private void RequestBanner()
-  {
-    #if UNITY_ANDROID
-      string adUnitId = "ca-app-pub-8904882368983998/3748761996";
-      string appId = "ca-app-pub-8904882368983998~4680190977";
-      string gameId = "1557938";
-    #elif UNITY_IPHONE
-      string adUnitId = "ca-app-pub-8904882368983998/9863023444";
-      string appId = "ca-app-pub-8904882368983998~8304198062";
-      string gameId = "1557937";
-    #else
-      string adUnitId = "unexpected_platform";
-      string appId = "unexpected_platform";
-      string gameId = "unexpected_platform";
-    #endif
-
-    MobileAds.Initialize(appId);
-
-    if (Advertisement.isSupported)
-      Advertisement.Initialize(gameId, false);
-
-    //Persistence.gameConfig.donated = true;
-    //Persistence.Save();
-
-    if (!Persistence.gameConfig.donated)
-    {
-      bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
-      AdRequest request = new AdRequest.Builder().Build();
-      this.bannerView.OnAdLeavingApplication += this.HandleAdLeftApplication;
-      bannerView.LoadAd(request);
-
-      var p = gameTimerPanel.localPosition;
-      gameTimerPanel.localPosition = new Vector3(320.0f, p.y, p.z);
-    }
-  }
 
   public void HandleAdLeftApplication(object sender, EventArgs args)
   {
     // Pause app.
     if (IsPlayingOrPreparing && !menuPanel.activeSelf)
       OnMenuClicked();
-  }
-
-  public void DestroyBanner()
-  {
-    if (bannerView != null)
-    {
-      bannerView.Destroy();
-      var p = gameTimerPanel.localPosition;
-      gameTimerPanel.localPosition = new Vector3(0.0f, p.y, p.z);
-    }
   }
 
   public void ClearGameTickSubscribers()
@@ -696,12 +641,6 @@ public class GameController : MonoBehaviour
         needShowMissionPanel = true;
         missionPanelShowHideTime = Time.time;
       }
-
-      if (!Persistence.gameConfig.donated)
-      {
-        ShowOptions options = new ShowOptions();
-        Advertisement.Show("video", options);
-      }
     }
 
     if (missionCompletionPanel.activeSelf && !needHideMissionCompletionPanel)
@@ -727,6 +666,25 @@ public class GameController : MonoBehaviour
         { "mission", missionController.CurrentMission }
       });
     }
+  }
+
+  public void OnOtherGames()
+  {
+    if (otherGamesPanel.activeSelf)
+    {
+      otherGamesPanel.gameObject.SetActive(false);
+    }
+    else
+    {
+      otherGamesPanel.gameObject.SetActive(true);
+      Analytics.CustomEvent("OtherGamesOpened");
+    }
+  }
+
+  public void OnCloseOtherGames()
+  {
+    if (otherGamesPanel.activeSelf)
+      otherGamesPanel.gameObject.SetActive(false);
   }
 
   public void OnCloseHelp()
